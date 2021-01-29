@@ -1,22 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.esamenautoescuela;
 
 import javax.swing.JRootPane;
 
-/**
- *
- * @author Yolanda
- */
+
 public class TestFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TestFrame
-     */
+    private ConexionDB db;
+
     public TestFrame() {
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        initComponents();
+    }
+    
+    public TestFrame(ConexionDB db) {
+        this.db = db;
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
         initComponents();
@@ -33,8 +32,7 @@ public class TestFrame extends javax.swing.JFrame {
 
         empezazLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        preguntasPanel1 = new com.mycompany.esamenautoescuela.PreguntasPanel();
-        startButton = new javax.swing.JButton();
+        preguntasPanel1 = new com.mycompany.esamenautoescuela.PreguntasPanel(db.getPreguntas());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,33 +45,25 @@ public class TestFrame extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(preguntasPanel1);
 
-        startButton.setText("Start");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(startButton)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(empezazLabel)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addGap(119, 119, 119))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(21, 21, 21)
                 .addComponent(empezazLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(startButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -108,18 +98,12 @@ public class TestFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TestFrame().setVisible(true);
-            }
-        });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel empezazLabel;
     private javax.swing.JScrollPane jScrollPane1;
     private com.mycompany.esamenautoescuela.PreguntasPanel preguntasPanel1;
-    private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 }

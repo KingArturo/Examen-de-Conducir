@@ -50,7 +50,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                   @Override
                   public void actionPerformed(ActionEvent e) {     
                       if(preguntasfile != null) {
-                        TestFrame test = new TestFrame();
+                        TestFrame test = new TestFrame(conexion);
                         test.setVisible(true);
                         closeFrame();
                       } else {
