@@ -7,22 +7,28 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URL;
 import javax.swing.*;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ElegirPreguntasFrame extends javax.swing.JFrame {
 
     private JEditorPane editorPane1;
     private File preguntasfile;
+    private ConexionDB conexion;
     
     public ElegirPreguntasFrame() {
+         preguntasfile = null;
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
          initComponents();
          addElegirButtonListener();
+         addEmpezarButtonListener();
     }
     
     /*
     *   Metodo que abre un file chooser para elegir una base de datos con preguntas
     */
-    public void addElegirButtonListener() {
+    private void addElegirButtonListener() {
          elegirButton.addActionListener(new ActionListener() {
                   @Override
                   public void actionPerformed(ActionEvent e) {     
@@ -33,13 +39,38 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                            int seleccion = fc.showOpenDialog(editorPane1);
                            if (seleccion == JFileChooser.APPROVE_OPTION){
                                preguntasfile = fc.getSelectedFile();
+                               conexion = new ConexionDB(preguntasfile);
                            }
                   }
         });  
     }
+    
+    private void addEmpezarButtonListener() {
+        startButton.addActionListener(new ActionListener() {
+                  @Override
+                  public void actionPerformed(ActionEvent e) {     
+                      if(preguntasfile != null) {
+                        TestFrame test = new TestFrame();
+                        test.setVisible(true);
+                        closeFrame();
+                      } else {
+                          advertencia();
+                      }
+
+                  }
+        });  
+    }
+    
+    private void advertencia() {
+        JOptionPane.showConfirmDialog(this, "No has cogido las preguntas", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    private void closeFrame() {
+        this.dispose();
+    }
 
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked");*/
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
