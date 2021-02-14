@@ -1,56 +1,135 @@
 
 package com.mycompany.esamenautoescuela;
 
+import com.sun.tools.javac.Main;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 public class PreguntasPanel extends javax.swing.JPanel {
 
-    private ArrayList<String> preguntas;
-    private String pregunta;
+    private ArrayList<String[]> preguntas;
+    private String pregunta[];
+    private int preguntasRespondidas;
+    private static final int Cantidad_Preguntas = 20;
+    private int aciertos;
+    private ConexionDB db;
 
     public PreguntasPanel() {
-        initComponents();
+        this.setLayout(new FlowLayout());
+        JLabel a = new JLabel(); 
+        a.setBounds(100, 50, 256, 256);
+        URL imageResource = Main.class.getClassLoader().getResource("page-not-found.png");
+        a.setIcon(new ImageIcon(imageResource));
+        this.add(a);
+        this.repaint();
     }
     
-    public PreguntasPanel(ArrayList<String> preguntas) {
+    public PreguntasPanel(ArrayList<String[]> preguntas, ConexionDB db) {
+        this.db = db;
         this.preguntas = preguntas;
+        aciertos = 0;
+        preguntasRespondidas = 0;
         initComponents();
-       pregunta = cogerPregunta();
+        jButton3.putClientProperty("JComponent.outline", "error");
+        pregunta = cogerPregunta();
         formato();
+        addButtonListener();
+        URL imageResource = Main.class.getClassLoader().getResource("stop.png");
+        jLabel1.setIcon(new ImageIcon(imageResource));
     }
     
-    private String cogerPregunta() {
+    private String[] cogerPregunta() {
         Random rn = new Random();
         int num = rn.nextInt(preguntas.size());
         return preguntas.get(num);
     }
     
     private void formato() {
-        String[] a = pregunta.split(Pattern.quote("-"));
-        jLabel2.setText(a[0]);
+        String[] a = pregunta;
+        jLabel2.setText(a[1]);
         PreguntaPanel[] pre = new PreguntaPanel[4];
         pre[0] = new PreguntaPanel(a[1], true);
-        jPanel1.add(pre[0]);
-        for(int i=1; i<pre.length;i++) {
-            String p = cogerPregunta();
-            if(!p.equals(pregunta)) {
-                a = p.split(Pattern.quote("-"));
-                pre[i] = new PreguntaPanel(a[1], false);
-                jPanel1.add(pre[i]);
-            } else {
-                i--;
-            }
+        int cont = 1;
+        ArrayList<String[]> respuestas = db.getRespuestas(Integer.parseInt(a[0]));
+        while(cont < respuestas.size()) {
+            String p[] = respuestas.get(cont);
+            pre[cont] = new PreguntaPanel(p[1], Boolean.parseBoolean(p[2]));
+            cont++;
         }
-        jPanel1.repaint();
+        respuestasAleatorias(pre);
     }
     
+    /*
+    * metodo que ordena las respuestas de manera aleatoria
+    */
+    private void respuestasAleatorias(PreguntaPanel[] pre) {
+        String num = "";
+        jPanel1.removeAll();
+        int cont = 0;
+        while(cont < 4) {
+            Random rn = new Random();
+            int n= rn.nextInt(4);
+            if(!num.contains(String.valueOf(n))) {
+                jPanel1.add(pre[n]); 
+                addrespuestasListener(pre[n]);
+                num += String.valueOf(n);
+                cont++;
+            }
+        }        
+        jPanel1.repaint();
+        jScrollPane1.repaint();
+    }
+    
+    public void preguntaAcertada() {
+        aciertos++;
+    }
+    
+    public void preguntaRespondida() {
+        jProgressBar1.setValue(preguntasRespondidas);
+    }
 
+    private void addButtonListener() {
+        jButton3.addActionListener(new ActionListener() {
+                  @Override
+                  public void actionPerformed(ActionEvent e) {     
+                      pregunta = cogerPregunta();
+                      formato();
+                  }
+        });  
+    }
+    
+    private void addrespuestasListener(PreguntaPanel pre) {
+        pre.addActionListener(new ActionListener() {
+                  @Override
+                  public void actionPerformed(ActionEvent e) { 
+                      if(preguntasRespondidas < Cantidad_Preguntas) {
+                        pregunta = cogerPregunta();
+                        if(pre.esCorrecta()) {
+                            preguntaAcertada();
+                        }
+                        formato();
+                        preguntasRespondidas++;
+                        preguntaRespondida();
+                      } else {
+                          advertencia();
+                      }
+                  }
+        });  
+    }
+    
+    private void advertencia() {
+        JOptionPane.showConfirmDialog(this, "Has acertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -64,8 +143,10 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jProgressBar1 = new javax.swing.JProgressBar(0,20);
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jLabel1 = new javax.swing.JLabel();
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Pregunta");
@@ -74,62 +155,70 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 378, Short.MAX_VALUE)
+            .addGap(0, 569, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 243, Short.MAX_VALUE)
+            .addGap(0, 277, Short.MAX_VALUE)
         );
 
         jPanel1.setLayout(new GridLayout(4,1));
 
         jScrollPane1.setViewportView(jPanel1);
 
-        jButton1.setText("Anterior");
+        jButton3.setText("Recargar");
 
-        jButton2.setText("Siguiente");
+        jProgressBar1.setValue(0);
+        jProgressBar1.setStringPainted(true);
+
+        jScrollPane2.setViewportView(jLabel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 222, Short.MAX_VALUE)
                         .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addGap(174, 174, 174)
+                        .addComponent(jButton3))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(6, 6, 6))
+                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

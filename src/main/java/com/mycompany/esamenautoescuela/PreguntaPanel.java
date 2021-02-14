@@ -1,8 +1,13 @@
 
 package com.mycompany.esamenautoescuela;
 
+import com.sun.tools.javac.Main;
+import java.awt.Font;
+import java.net.URL;
+import javax.swing.*;
 
-public class PreguntaPanel extends javax.swing.JPanel {
+
+public class PreguntaPanel extends javax.swing.JButton {
 
     private boolean  esCorrecta;
 
@@ -13,7 +18,13 @@ public class PreguntaPanel extends javax.swing.JPanel {
     public PreguntaPanel(String pregunta, boolean correcta) {
         esCorrecta = correcta;
         initComponents();
-        jLabel1.setText(pregunta);
+        Font f = new Font("Tahoma", 1, 24);
+        this.setFont(f);
+        this.setText(pregunta);
+    }
+    
+    public String getPregunta() {
+        return this.getText();
     }
     
     public boolean esCorrecta() {
@@ -33,30 +44,19 @@ public class PreguntaPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel1)
-                .addContainerGap(224, Short.MAX_VALUE))
+            .addGap(0, 224, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel1)
-                .addContainerGap(25, Short.MAX_VALUE))
+            .addGap(0, 54, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

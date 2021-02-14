@@ -3,6 +3,8 @@ package com.mycompany.esamenautoescuela;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class ConexionDB {
@@ -14,7 +16,6 @@ public class ConexionDB {
     
     public ConexionDB(File dbFile) {
         String filePath = dbFile.getPath();
-        preguntas = new ArrayList<>();
         establecerConexion(filePath);
     }
     
@@ -23,24 +24,54 @@ public class ConexionDB {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:"+dbPath);
             statement = connection.createStatement();
-            ResultSet tablas = statement.executeQuery("SELECT name FROM sqlite_master "+
-                "WHERE type='table';");
-            String tabla = "";
-            tablas.next();
-            tabla = tablas.getString("name");
-            
-            datosResult = statement.executeQuery("SELECT * FROM "+tabla+";");
-            
-            while(datosResult.next()) {
-                preguntas.add(String.valueOf(datosResult.getObject(1))+"-"+String.valueOf(datosResult.getObject(2)));
-            }
 
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
     
-    public ArrayList<String> getPreguntas() {
+    public ArrayList<String[]> getExamenes() {
+        ArrayList<String[]> examenes = new ArrayList<>();
+        try {
+            ResultSet exam = statement.executeQuery("SELECT * FROM examenes");
+            while(exam.next()) {
+                String a[] = {String.valueOf(exam.getObject(1)),String.valueOf(exam.getObject(2))};
+                examenes.add(a);
+            }
+            exam.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return examenes;
+    }
+    
+    public ArrayList<String[]> getPreguntas(int id) {
+        ArrayList<String[]> preguntas = new ArrayList<>();
+        try {
+            ResultSet exam = statement.executeQuery("SELECT * FROM preguntas WHERE examen="+id+";");
+            while(exam.next()) {
+                String a[] = {String.valueOf(exam.getObject(1)),String.valueOf(exam.getObject(2)),String.valueOf(exam.getObject(3))};
+                preguntas.add(a);
+            }
+            exam.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return preguntas;
+    }
+    
+    public ArrayList<String[]> getRespuestas(int id) {
+        ArrayList<String[]> respuestas = new ArrayList<>();
+        try {
+            ResultSet exam = statement.executeQuery("SELECT * FROM respuestas WHERE pregunta="+id+";");
+            while(exam.next()) {
+                String a[] = {String.valueOf(exam.getObject(1)),String.valueOf(exam.getObject(2)),String.valueOf(exam.getObject(3))};
+                respuestas.add(a);
+            }
+            exam.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return respuestas;
     }
 }
