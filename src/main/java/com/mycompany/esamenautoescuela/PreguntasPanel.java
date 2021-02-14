@@ -44,8 +44,6 @@ public class PreguntasPanel extends javax.swing.JPanel {
         pregunta = cogerPregunta();
         formato();
         addButtonListener();
-        URL imageResource = Main.class.getClassLoader().getResource("stop.png");
-        jLabel1.setIcon(new ImageIcon(imageResource));
     }
     
     private String[] cogerPregunta() {
@@ -57,9 +55,10 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private void formato() {
         String[] a = pregunta;
         jLabel2.setText(a[1]);
+        URL imageResource = Main.class.getClassLoader().getResource(a[2]);
+        jLabel1.setIcon(new ImageIcon(imageResource));
         PreguntaPanel[] pre = new PreguntaPanel[4];
-        pre[0] = new PreguntaPanel(a[1], true);
-        int cont = 1;
+        int cont = 0;
         ArrayList<String[]> respuestas = db.getRespuestas(Integer.parseInt(a[0]));
         while(cont < respuestas.size()) {
             String p[] = respuestas.get(cont);
@@ -171,6 +170,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jProgressBar1.setValue(0);
         jProgressBar1.setStringPainted(true);
 
+        jLabel1.setPreferredSize(new java.awt.Dimension(256, 256));
         jScrollPane2.setViewportView(jLabel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -182,14 +182,14 @@ public class PreguntasPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 222, Short.MAX_VALUE)
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel2)
-                        .addGap(174, 174, 174)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -203,10 +203,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

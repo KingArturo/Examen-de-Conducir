@@ -50,7 +50,7 @@ public class ConexionDB {
         try {
             ResultSet exam = statement.executeQuery("SELECT * FROM preguntas WHERE examen="+id+";");
             while(exam.next()) {
-                String a[] = {String.valueOf(exam.getObject(1)),String.valueOf(exam.getObject(2)),String.valueOf(exam.getObject(3))};
+                String a[] = {String.valueOf(exam.getObject(1)),String.valueOf(exam.getObject(2)),String.valueOf(exam.getObject(3)),String.valueOf(exam.getObject(4))};
                 preguntas.add(a);
             }
             exam.close();

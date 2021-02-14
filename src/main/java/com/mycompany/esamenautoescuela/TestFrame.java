@@ -35,7 +35,13 @@ public class TestFrame extends javax.swing.JFrame {
         jPanel1.repaint();
     }
     
-    private void repaintAll() {
+    private void crearPreguntas(int id) {    
+        preguntasPanel1 = new PreguntasPanel(db.getPreguntas(id),db);
+        preguntasPanel1.repaint();
+        preguntasPanel1.setVisible(true);
+        jScrollPane1.setViewportView(preguntasPanel1);
+        jScrollPane1.repaint();
+        jScrollPane1.revalidate();
         this.repaint();
         this.revalidate();
     }
@@ -43,11 +49,8 @@ public class TestFrame extends javax.swing.JFrame {
     private void addButtonListener(TipoExamen button) {
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {     
-                jScrollPane1.removeAll();
-                jScrollPane1.setViewportView(new PreguntasPanel(db.getPreguntas(button.getId()),db));
-                jScrollPane1.repaint();
-                repaintAll();
+            public void actionPerformed(ActionEvent e) { 
+                crearPreguntas(button.getId());
             }
         });  
     }
@@ -83,7 +86,7 @@ public class TestFrame extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addGap(0, 389, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -105,7 +108,7 @@ public class TestFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -115,8 +118,10 @@ public class TestFrame extends javax.swing.JFrame {
                 .addComponent(empezazLabel)
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
