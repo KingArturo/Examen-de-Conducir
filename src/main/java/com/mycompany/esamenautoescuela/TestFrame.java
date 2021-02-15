@@ -1,9 +1,13 @@
 
 package com.mycompany.esamenautoescuela;
 
+import com.sun.tools.javac.Main;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JRootPane;
@@ -13,6 +17,7 @@ public class TestFrame extends javax.swing.JFrame {
 
     private ConexionDB db;
     private ArrayList<String[]> examenes;
+    private PreguntasPanel preguntasPanel1;
 
     public TestFrame() {
         this.setUndecorated(true);
@@ -25,6 +30,8 @@ public class TestFrame extends javax.swing.JFrame {
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
         initComponents();
+        preguntasPanel1 = new PreguntasPanel();
+        jScrollPane1.setViewportView(preguntasPanel1);
         examenes = db.getExamenes();
         jPanel1.setLayout(new GridLayout(examenes.size(),1));
         for(String[] a : examenes) {
@@ -33,6 +40,14 @@ public class TestFrame extends javax.swing.JFrame {
             jPanel1.add(b);
         }
         jPanel1.repaint();
+    }
+            
+         
+    @Override
+    public Image getIconImage() {
+        URL imageResource = Main.class.getClassLoader().getResource("prueba.png");
+        Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
+        return retValue;
     }
     
     private void crearPreguntas(int id) {    
@@ -61,13 +76,13 @@ public class TestFrame extends javax.swing.JFrame {
 
         empezazLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        preguntasPanel1 = new com.mycompany.esamenautoescuela.PreguntasPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         empezazLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         empezazLabel.setText("EXAMEN");
@@ -75,8 +90,6 @@ public class TestFrame extends javax.swing.JFrame {
         empezazLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         empezazLabel.setFocusable(false);
         empezazLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        jScrollPane1.setViewportView(preguntasPanel1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,6 +178,5 @@ public class TestFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private com.mycompany.esamenautoescuela.PreguntasPanel preguntasPanel1;
     // End of variables declaration//GEN-END:variables
 }

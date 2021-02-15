@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -20,7 +22,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private ArrayList<String[]> preguntas;
     private String pregunta[];
     private int preguntasRespondidas;
-    private static final int Cantidad_Preguntas = 20;
+    private static final int Cantidad_Preguntas = 10;
+    private static final int tiempo = 5;
     private int aciertos;
     private ConexionDB db;
 
@@ -44,12 +47,41 @@ public class PreguntasPanel extends javax.swing.JPanel {
         pregunta = cogerPregunta();
         formato();
         addButtonListener();
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                int seg = 0;
+                int min = 5;
+                while(min != 0) {
+                    try {
+                        String s = "";
+                        if(seg==0) {
+                            min--;
+                        }
+                        seg--;
+                        if(seg<0) {
+                            seg=59;
+                        }
+                        s=""+min+":";
+                        if(seg<10) {
+                            s +="0";
+                        }
+                        s += ""+seg;
+                        jLabel3.setText(s);
+                        Thread.sleep(999);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(PreguntasPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+        t.start();
     }
     
     private String[] cogerPregunta() {
         Random rn = new Random();
         int num = rn.nextInt(preguntas.size());
-        return preguntas.get(num);
+        System.out.println(preguntasRespondidas);
+        return preguntas.get(preguntasRespondidas);
     }
     
     private void formato() {
@@ -94,7 +126,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     }
     
     public void preguntaRespondida() {
-        jProgressBar1.setValue(preguntasRespondidas);
+        jProgressBar1.setValue(preguntasRespondidas+1);
     }
 
     private void addButtonListener() {
@@ -111,13 +143,13 @@ public class PreguntasPanel extends javax.swing.JPanel {
         pre.addActionListener(new ActionListener() {
                   @Override
                   public void actionPerformed(ActionEvent e) { 
-                      if(preguntasRespondidas < Cantidad_Preguntas) {
-                        pregunta = cogerPregunta();
+                      if(preguntasRespondidas < (Cantidad_Preguntas-1)) {
                         if(pre.esCorrecta()) {
                             preguntaAcertada();
                         }
-                        formato();
                         preguntasRespondidas++;
+                        pregunta = cogerPregunta();
+                        formato();
                         preguntaRespondida();
                       } else {
                           advertencia();
@@ -143,9 +175,10 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jProgressBar1 = new javax.swing.JProgressBar(0,20);
+        jProgressBar1 = new javax.swing.JProgressBar(0,10);
         jScrollPane2 = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Pregunta");
@@ -158,7 +191,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGap(0, 298, Short.MAX_VALUE)
         );
 
         jPanel1.setLayout(new GridLayout(4,1));
@@ -167,11 +200,15 @@ public class PreguntasPanel extends javax.swing.JPanel {
 
         jButton3.setText("Recargar");
 
-        jProgressBar1.setValue(0);
+        jProgressBar1.setValue(1);
         jProgressBar1.setStringPainted(true);
 
         jLabel1.setPreferredSize(new java.awt.Dimension(256, 256));
         jScrollPane2.setViewportView(jLabel1);
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -187,7 +224,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -203,8 +242,11 @@ public class PreguntasPanel extends javax.swing.JPanel {
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -214,6 +256,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;

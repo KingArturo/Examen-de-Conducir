@@ -2,6 +2,8 @@
 package com.mycompany.esamenautoescuela;
 
 import com.sun.tools.javac.Main;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,6 +26,15 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
          addElegirButtonListener();
          addEmpezarButtonListener();
     }
+    
+        
+    @Override
+    public Image getIconImage() {
+        URL imageResource = Main.class.getClassLoader().getResource("prueba.png");
+        Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
+        return retValue;
+    }
+    
     
     /*
     *   Metodo que abre un file chooser para elegir una base de datos con preguntas
@@ -78,6 +89,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         startButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
         setResizable(false);
 
         elegirButton.setText("Elegir Preguntas");
@@ -130,7 +142,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatGitHubContrastIJTheme());
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ElegirPreguntasFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
