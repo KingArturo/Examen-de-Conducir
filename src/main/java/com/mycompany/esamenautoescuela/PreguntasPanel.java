@@ -23,7 +23,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private String pregunta[];
     private int preguntasRespondidas;
     private static final int Cantidad_Preguntas = 10;
-    private static final int tiempo = 5;
+    private static boolean tiempoAgotado = false;
     private int aciertos;
     private ConexionDB db;
 
@@ -51,7 +51,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
             public void run() {
                 int seg = 0;
                 int min = 5;
-                while(min != 0) {
+                while(min != 0 || seg != 0) {
                     try {
                         String s = "";
                         if(seg==0) {
@@ -72,6 +72,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
                         Logger.getLogger(PreguntasPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+                tiempoAgotado = true;
+                preguntasRespondidas=10;
             }
         });
         t.start();
@@ -80,7 +82,6 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private String[] cogerPregunta() {
         Random rn = new Random();
         int num = rn.nextInt(preguntas.size());
-        System.out.println(preguntasRespondidas);
         return preguntas.get(preguntasRespondidas);
     }
     
@@ -159,7 +160,12 @@ public class PreguntasPanel extends javax.swing.JPanel {
     }
     
     private void advertencia() {
-        JOptionPane.showConfirmDialog(this, "Has acertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+        if(aciertos > 6) {
+            JOptionPane.showConfirmDialog(this, "Has probado\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showConfirmDialog(this, "Has suspendido\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+        }
+        db.setRegistro(aciertos);
     }
 
     /**

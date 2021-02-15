@@ -2,6 +2,7 @@
 package com.mycompany.esamenautoescuela;
 
 import com.sun.tools.javac.Main;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,7 +11,11 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JRootPane;
+import org.jfree.chart.*;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class TestFrame extends javax.swing.JFrame {
@@ -18,6 +23,7 @@ public class TestFrame extends javax.swing.JFrame {
     private ConexionDB db;
     private ArrayList<String[]> examenes;
     private PreguntasPanel preguntasPanel1;
+    private JFreeChart freeChart;
 
     public TestFrame() {
         this.setUndecorated(true);
@@ -40,6 +46,7 @@ public class TestFrame extends javax.swing.JFrame {
             jPanel1.add(b);
         }
         jPanel1.repaint();
+        addMenuListener();
     }
             
          
@@ -69,6 +76,33 @@ public class TestFrame extends javax.swing.JFrame {
             }
         });  
     }
+    
+    private void addMenuListener() {
+        jMenuItem1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                showGrafica();
+            }
+        });  
+    }
+    
+    private void showGrafica() {
+        DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+        ArrayList<String[]> registros = db.getRegistros();
+        for(String[] registro : registros) {
+            Datos.addValue(Integer.parseInt(registro[0]), registro[2], registro[2]);        
+        }
+        freeChart = ChartFactory.createBarChart("Examenes Realizados",
+        "Tipo", "Cantidad", Datos,
+        PlotOrientation.VERTICAL, true, true, false);
+        freeChart.setBackgroundPaint(Color.black);
+        ChartPanel Panel = new ChartPanel(freeChart);
+        JFrame Ventana = new JFrame("JFreeChart");
+        Ventana.getContentPane().add(Panel);
+        Ventana.pack();
+        Ventana.setVisible(true);
+        Ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -80,6 +114,8 @@ public class TestFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -105,6 +141,14 @@ public class TestFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jPanel1);
 
         jMenu1.setText("File");
+
+        jMenu2.setText("jMenu2");
+
+        jMenuItem1.setText("jMenuItem1");
+        jMenu2.add(jMenuItem1);
+
+        jMenu1.add(jMenu2);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -174,7 +218,9 @@ public class TestFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel empezazLabel;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

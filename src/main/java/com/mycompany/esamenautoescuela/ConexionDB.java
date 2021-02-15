@@ -11,8 +11,7 @@ public class ConexionDB {
     
     private Connection connection;
     private Statement statement;
-    private ResultSet datosResult;
-    private ArrayList<String> preguntas;
+    private int examenActual;
     
     public ConexionDB(File dbFile) {
         String filePath = dbFile.getPath();
@@ -47,6 +46,7 @@ public class ConexionDB {
     
     public ArrayList<String[]> getPreguntas(int id) {
         ArrayList<String[]> preguntas = new ArrayList<>();
+        examenActual=id;
         try {
             ResultSet exam = statement.executeQuery("SELECT * FROM preguntas WHERE examen="+id+";");
             while(exam.next()) {
@@ -73,5 +73,39 @@ public class ConexionDB {
             Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
         return respuestas;
+    }
+    
+    public void setRegistro(int aciertos) {
+        try {
+            statement.execute("INSERT INTO registro VALUES("+aciertos+","+examenActual+");");
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public ArrayList<String[]> getRegistros() {
+        ArrayList<String[]> registros = new ArrayList<>();
+        try {
+            ResultSet exam = statement.executeQuery("SELECT id FROM examenes;");
+            ArrayList<Integer> a = new ArrayList<>();
+            while(exam.next()) {
+                a.add(exam.getInt(1));
+            }
+            exam.close();
+            for(int i : a) {
+                exam = statement.executeQuery("SELECT count() as num, aciertos, nombre "
+                        + "FROM registro, examenes WHERE examenes.id=examen AND examen="+i+";");
+                String[] re = new String[3];
+                while(exam.next()) {
+                    re[0] = String.valueOf(exam.getObject(1));
+                    re[1] = String.valueOf(exam.getObject(2));
+                    re[2] = String.valueOf(exam.getObject(3));
+                }
+                registros.add(re);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return registros;
     }
 }
