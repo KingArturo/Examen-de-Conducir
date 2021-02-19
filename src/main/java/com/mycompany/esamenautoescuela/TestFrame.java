@@ -14,10 +14,13 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
@@ -31,28 +34,33 @@ public class TestFrame extends javax.swing.JFrame {
     private ConexionDB db;
     private ArrayList<String[]> examenes;
     private PreguntasPanel preguntasPanel1;
+    private boolean theme;
 
     public TestFrame() {
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        theme = true;
         initComponents();
+        addListenerTheme();
     }
     
     public TestFrame(ConexionDB db) {
         this.db = db;
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        theme = true;
         initComponents();
+        addListenerTheme();
         preguntasPanel1 = new PreguntasPanel();
-        jScrollPane1.setViewportView(preguntasPanel1);
+        scrollPanePreguntas.setViewportView(preguntasPanel1);
         examenes = db.getExamenes();
-        jPanel1.setLayout(new GridLayout(examenes.size(),1));
+        panelImagen.setLayout(new GridLayout(examenes.size(),1));
         for(String[] a : examenes) {
             TipoExamen b = new TipoExamen(Integer.parseInt(a[0]),a[1]);
             addButtonListener(b);
-            jPanel1.add(b);
+            panelImagen.add(b);
         }
-        jPanel1.repaint();
+        panelImagen.repaint();
         addMenuListener();
     }
             
@@ -68,9 +76,9 @@ public class TestFrame extends javax.swing.JFrame {
         preguntasPanel1 = new PreguntasPanel(db.getPreguntas(id),db);
         preguntasPanel1.repaint();
         preguntasPanel1.setVisible(true);
-        jScrollPane1.setViewportView(preguntasPanel1);
-        jScrollPane1.repaint();
-        jScrollPane1.revalidate();
+        scrollPanePreguntas.setViewportView(preguntasPanel1);
+        scrollPanePreguntas.repaint();
+        scrollPanePreguntas.revalidate();
         this.repaint();
         this.revalidate();
     }
@@ -84,8 +92,47 @@ public class TestFrame extends javax.swing.JFrame {
         });  
     }
     
+    /*
+     *	Añade un listener al boton theme y cuando es pulsado
+     *	Cambia de tema 
+     */
+    private void addListenerTheme() {
+        buttonTema.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                theme = !theme;
+                if(theme) {
+                        tamaClaro(buttonTema);
+               } else {
+                       temaOscuro(buttonTema);
+               }
+            }
+        });
+    }
+    
+    private void temaOscuro(JButton button) {
+        try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPalenightContrastIJTheme());
+            SwingUtilities.updateComponentTreeUI(this);
+                URL imagebut3 = Main.class.getClassLoader().getResource("sunny.png");
+                button.setIcon(new ImageIcon(imagebut3));
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void tamaClaro(JButton button) {
+        try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme());
+            SwingUtilities.updateComponentTreeUI(this);
+                URL imagebut3 = Main.class.getClassLoader().getResource("half-moon.png");
+                button.setIcon(new ImageIcon(imagebut3));
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     private void addMenuListener() {
-        jMenuItem1.addActionListener(new ActionListener() {
+        menuItemGrafica.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
                 showGrafica();
@@ -133,82 +180,95 @@ public class TestFrame extends javax.swing.JFrame {
         ((CategoryPlot)chart.getPlot()).setFixedLegendItems(chartLegend);
         
         ChartPanel panel = new ChartPanel(chart);
-        panel.setSize(jScrollPane1.getWidth(), jScrollPane1.getHeight());
-        panel.setPreferredSize(new Dimension((jScrollPane1.getWidth()-10), (jScrollPane1.getHeight()-10)));
+        panel.setSize(scrollPanePreguntas.getWidth(), scrollPanePreguntas.getHeight());
+        panel.setPreferredSize(new Dimension((scrollPanePreguntas.getWidth()-10), (scrollPanePreguntas.getHeight()-10)));
         panel.setVisible(true);
-        jScrollPane1.setViewportView(panel);
-        jScrollPane1.repaint();
+        scrollPanePreguntas.setViewportView(panel);
+        scrollPanePreguntas.repaint();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        empezazLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        labelNombre = new javax.swing.JLabel();
+        scrollPanePreguntas = new javax.swing.JScrollPane();
+        scrollPaneImagen = new javax.swing.JScrollPane();
+        panelImagen = new javax.swing.JPanel();
+        buttonTema = new javax.swing.JButton();
+        menuBarExamen = new javax.swing.JMenuBar();
+        menuInforme = new javax.swing.JMenu();
+        menuItemGrafica = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
 
-        empezazLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        empezazLabel.setText("Autoescuela A&A");
-        empezazLabel.setToolTipText("");
-        empezazLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        empezazLabel.setFocusable(false);
-        empezazLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelNombre.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        labelNombre.setText("Autoescuela A&A");
+        labelNombre.setToolTipText("");
+        labelNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        labelNombre.setFocusable(false);
+        labelNombre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelImagenLayout = new javax.swing.GroupLayout(panelImagen);
+        panelImagen.setLayout(panelImagenLayout);
+        panelImagenLayout.setHorizontalGroup(
+            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 172, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelImagenLayout.setVerticalGroup(
+            panelImagenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 389, Short.MAX_VALUE)
         );
 
-        jScrollPane2.setViewportView(jPanel1);
+        scrollPaneImagen.setViewportView(panelImagen);
 
-        jMenu1.setText("Informes");
+        URL imagebut3 = Main.class.getClassLoader().getResource("half-moon.png");
+        buttonTema.setIcon(new ImageIcon(imagebut3));
+        buttonTema.putClientProperty("JButton.buttonType", "roundRect");
 
-        jMenuItem1.setText("Examenes");
-        jMenu1.add(jMenuItem1);
+        menuInforme.setText("Informes");
 
-        jMenuBar1.add(jMenu1);
+        menuItemGrafica.setText("Examenes");
+        URL imageResource = Main.class.getClassLoader().getResource("barra-grafica.png");
+        menuItemGrafica.setIcon(new ImageIcon(imageResource));
+        menuInforme.add(menuItemGrafica);
 
-        setJMenuBar(jMenuBar1);
+        menuBarExamen.add(menuInforme);
+
+        setJMenuBar(menuBarExamen);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(406, 406, 406)
-                .addComponent(empezazLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(scrollPaneImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(400, 400, 400)
+                        .addComponent(labelNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonTema)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(empezazLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(labelNombre))
+                    .addComponent(buttonTema))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                    .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(scrollPaneImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -247,12 +307,13 @@ public class TestFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel empezazLabel;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton buttonTema;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JMenuBar menuBarExamen;
+    private javax.swing.JMenu menuInforme;
+    private javax.swing.JMenuItem menuItemGrafica;
+    private javax.swing.JPanel panelImagen;
+    private javax.swing.JScrollPane scrollPaneImagen;
+    private javax.swing.JScrollPane scrollPanePreguntas;
     // End of variables declaration//GEN-END:variables
 }
