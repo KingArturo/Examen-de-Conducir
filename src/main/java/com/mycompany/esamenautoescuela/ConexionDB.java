@@ -104,7 +104,7 @@ public class ConexionDB {
                     re[0] = String.valueOf(cont);
                     re[1] = String.valueOf("Total");
                     re[2] = String.valueOf(exam.getObject(2));
-                    if(exam.getInt(1) > 5) {
+                    if(exam.getInt(1) < 4) {
                         apr++;
                         es[0] = String.valueOf(apr);
                         es[1] = "Aprobado";

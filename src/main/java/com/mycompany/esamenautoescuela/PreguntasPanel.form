@@ -94,7 +94,7 @@
     </Container>
     <Component class="javax.swing.JProgressBar" name="jProgressBar1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JProgressBar(0,10)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JProgressBar(0,Cantidad_Preguntas)"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jProgressBar1.setValue(1);&#xa;jProgressBar1.setStringPainted(true);"/>
       </AuxValues>
     </Component>

@@ -24,7 +24,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private String pregunta[];
     private PreguntaPanel[] pre;
     private int preguntasRespondidas;
-    private static final int Cantidad_Preguntas = 10;
+    private static int Cantidad_Preguntas = 10;
     private boolean Examen_Finalizado = false;
     private int aciertos;
     private ConexionDB db;
@@ -39,8 +39,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
         this.repaint();
     }
     
-    public PreguntasPanel(ArrayList<String[]> preguntas, ConexionDB db) {
+    public PreguntasPanel(ArrayList<String[]> preguntas, ConexionDB db, int cantPreguntas) {
         this.db = db;
+        Cantidad_Preguntas = cantPreguntas;
         Collections.shuffle(preguntas);
         this.preguntas = preguntas;
         aciertos = 0;
@@ -152,13 +153,13 @@ public class PreguntasPanel extends javax.swing.JPanel {
     }
     
     private void advertencia() {
-        if(aciertos > 6) {
+        if(aciertos > (Cantidad_Preguntas*0.6)) {
             JOptionPane.showConfirmDialog(this, "Has probado\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showConfirmDialog(this, "Has suspendido\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
         }
         Examen_Finalizado = true;
-        db.setRegistro(aciertos);
+        db.setRegistro((Cantidad_Preguntas-aciertos));
     }
 
     /**
@@ -173,7 +174,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         labelPregunta = new javax.swing.JLabel();
         scrollPaneRespuesta = new javax.swing.JScrollPane();
         panelRespuestas = new javax.swing.JPanel();
-        jProgressBar1 = new javax.swing.JProgressBar(0,10);
+        jProgressBar1 = new javax.swing.JProgressBar(0,Cantidad_Preguntas);
         jScrollPane2 = new javax.swing.JScrollPane();
         labelImagen = new javax.swing.JLabel();
         labelTiempo = new javax.swing.JLabel();
