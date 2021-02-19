@@ -1,20 +1,28 @@
-
 package com.mycompany.esamenautoescuela;
 
 import com.sun.tools.javac.Main;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Paint;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.ArrayList;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JRootPane;
 import org.jfree.chart.*;
-import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 
@@ -23,7 +31,6 @@ public class TestFrame extends javax.swing.JFrame {
     private ConexionDB db;
     private ArrayList<String[]> examenes;
     private PreguntasPanel preguntasPanel1;
-    private JFreeChart freeChart;
 
     public TestFrame() {
         this.setUndecorated(true);
@@ -87,21 +94,50 @@ public class TestFrame extends javax.swing.JFrame {
     }
     
     private void showGrafica() {
-        DefaultCategoryDataset Datos = new DefaultCategoryDataset();
+        DefaultCategoryDataset datos = new DefaultCategoryDataset();
         ArrayList<String[]> registros = db.getRegistros();
         for(String[] registro : registros) {
-            Datos.addValue(Integer.parseInt(registro[0]), registro[2], registro[2]);        
+            datos.addValue(Integer.parseInt(registro[0]), registro[1], registro[2]);        
         }
-        freeChart = ChartFactory.createBarChart("Examenes Realizados",
-        "Tipo", "Cantidad", Datos,
-        PlotOrientation.VERTICAL, true, true, false);
-        freeChart.setBackgroundPaint(Color.black);
-        ChartPanel Panel = new ChartPanel(freeChart);
-        JFrame Ventana = new JFrame("JFreeChart");
-        Ventana.getContentPane().add(Panel);
-        Ventana.pack();
-        Ventana.setVisible(true);
-        Ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        CategoryAxis categoryAxis = new CategoryAxis("Examenes");
+        ValueAxis valueAxis = new NumberAxis("Realizados");
+        BarRenderer renderer = new BarRenderer() {
+
+            @Override
+            public Paint getItemPaint(int row, int column) {
+                switch(row) {
+                    case 0:
+                        return new Color(0,162,255);
+                    case 1:
+                        return new Color(0,255,124);
+                    case 2:
+                        return new Color(255,50,0);
+                    default:
+                        return Color.BLACK;
+                }
+            }
+        };
+        renderer.setDrawBarOutline(false);
+        renderer.setBarPainter(new StandardBarPainter());
+        StandardCategoryToolTipGenerator generator =
+          new StandardCategoryToolTipGenerator("{1}, {2}", NumberFormat.getInstance());
+        renderer.setDefaultToolTipGenerator(generator);
+        CategoryPlot plot = new CategoryPlot(datos, categoryAxis, valueAxis, renderer);
+        LegendItemCollection chartLegend = new LegendItemCollection();
+        Shape shape = new Rectangle(10, 10);
+        chartLegend.add(new LegendItem("Total", null, null, null, shape, new Color(0,162,255)));
+        chartLegend.add(new LegendItem("Aprobado", null, null, null, shape, new Color(0,255,124)));
+        chartLegend.add(new LegendItem("Suspenso", null, null, null, shape, new Color(255,50,0)));
+        
+        JFreeChart chart = new JFreeChart("Cantidad de Examnes", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
+        ((CategoryPlot)chart.getPlot()).setFixedLegendItems(chartLegend);
+        
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setSize(jScrollPane1.getWidth(), jScrollPane1.getHeight());
+        panel.setPreferredSize(new Dimension((jScrollPane1.getWidth()-10), (jScrollPane1.getHeight()-10)));
+        panel.setVisible(true);
+        jScrollPane1.setViewportView(panel);
+        jScrollPane1.repaint();
     }
 
     @SuppressWarnings("unchecked")
@@ -114,14 +150,13 @@ public class TestFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
 
         empezazLabel.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        empezazLabel.setText("EXAMEN");
+        empezazLabel.setText("Autoescuela A&A");
         empezazLabel.setToolTipText("");
         empezazLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         empezazLabel.setFocusable(false);
@@ -140,14 +175,10 @@ public class TestFrame extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jPanel1);
 
-        jMenu1.setText("File");
+        jMenu1.setText("Informes");
 
-        jMenu2.setText("jMenu2");
-
-        jMenuItem1.setText("jMenuItem1");
-        jMenu2.add(jMenuItem1);
-
-        jMenu1.add(jMenu2);
+        jMenuItem1.setText("Examenes");
+        jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
 
@@ -157,23 +188,23 @@ public class TestFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(331, 331, 331)
-                .addComponent(empezazLabel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(406, 406, 406)
+                .addComponent(empezazLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(23, 23, 23)
                 .addComponent(empezazLabel)
-                .addGap(42, 42, 42)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -218,7 +249,6 @@ public class TestFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel empezazLabel;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;

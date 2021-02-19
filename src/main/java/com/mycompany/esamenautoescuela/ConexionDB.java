@@ -93,15 +93,36 @@ public class ConexionDB {
             }
             exam.close();
             for(int i : a) {
-                exam = statement.executeQuery("SELECT count() as num, aciertos, nombre "
+                exam = statement.executeQuery("SELECT aciertos, nombre "
                         + "FROM registro, examenes WHERE examenes.id=examen AND examen="+i+";");
                 String[] re = new String[3];
+                String[] es = new String[3];
+                String[] sus = new String[3];
+                int cont = 0, apr=0,suspen=0;
                 while(exam.next()) {
-                    re[0] = String.valueOf(exam.getObject(1));
-                    re[1] = String.valueOf(exam.getObject(2));
-                    re[2] = String.valueOf(exam.getObject(3));
+                    cont++;
+                    re[0] = String.valueOf(cont);
+                    re[1] = String.valueOf("Total");
+                    re[2] = String.valueOf(exam.getObject(2));
+                    if(exam.getInt(1) > 5) {
+                        apr++;
+                        es[0] = String.valueOf(apr);
+                        es[1] = "Aprobado";
+                        es[2] = String.valueOf(exam.getObject(2));
+                    } else {
+                        suspen++;
+                        sus[0] = String.valueOf(suspen);
+                        sus[1] = "Suspenso";
+                        sus[2] = String.valueOf(exam.getObject(2));
+                    }
                 }
                 registros.add(re);
+                if(es[0]!=null) {
+                    registros.add(es);
+                }
+                if(sus[0]!=null) {
+                    registros.add(sus);
+                }
             }
         } catch(Exception e) {
             e.printStackTrace();
