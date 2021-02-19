@@ -116,7 +116,9 @@ public class ConexionDB {
                         sus[2] = String.valueOf(exam.getObject(2));
                     }
                 }
+                if(re[0]!=null) {
                 registros.add(re);
+                }
                 if(es[0]!=null) {
                     registros.add(es);
                 }

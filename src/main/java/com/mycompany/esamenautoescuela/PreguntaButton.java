@@ -1,21 +1,17 @@
-
 package com.mycompany.esamenautoescuela;
 
-import com.sun.tools.javac.Main;
 import java.awt.Font;
-import java.net.URL;
-import javax.swing.*;
 
 
-public class PreguntaPanel extends javax.swing.JButton {
+public class PreguntaButton extends javax.swing.JButton {
 
     private boolean  esCorrecta;
 
-    public PreguntaPanel() {
+    public PreguntaButton() {
         initComponents();
     }
     
-    public PreguntaPanel(String pregunta, boolean correcta) {
+    public PreguntaButton(String pregunta, boolean correcta) {
         esCorrecta = correcta;
         initComponents();
         Font f = new Font("Tahoma", 1, 24);
@@ -43,17 +39,6 @@ public class PreguntaPanel extends javax.swing.JButton {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 224, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 54, Short.MAX_VALUE)
-        );
     }// </editor-fold>//GEN-END:initComponents
 
 

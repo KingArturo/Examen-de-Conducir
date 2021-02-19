@@ -146,7 +146,7 @@ public class TestFrame extends javax.swing.JFrame {
     }
     
     private void addBotonCantPreguntasListener() {
-        jButton1.addActionListener(new ActionListener() {
+        CantPreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
                 mostrarDialogoCantPreguntas();
@@ -159,7 +159,7 @@ public class TestFrame extends javax.swing.JFrame {
         JOptionPane.showConfirmDialog(null,
                         pn,
                         "Elegir ",
-                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE,
                         JOptionPane.PLAIN_MESSAGE);
         cantPreguntas = pn.getValue();
     }
@@ -220,7 +220,7 @@ public class TestFrame extends javax.swing.JFrame {
         scrollPaneImagen = new javax.swing.JScrollPane();
         panelImagen = new javax.swing.JPanel();
         buttonTema = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        CantPreButton = new javax.swing.JButton();
         menuBarExamen = new javax.swing.JMenuBar();
         menuInforme = new javax.swing.JMenu();
         menuItemGrafica = new javax.swing.JMenuItem();
@@ -251,8 +251,10 @@ public class TestFrame extends javax.swing.JFrame {
         URL imagebut3 = Main.class.getClassLoader().getResource("half-moon.png");
         buttonTema.setIcon(new ImageIcon(imagebut3));
         buttonTema.putClientProperty("JButton.buttonType", "roundRect");
+        buttonTema.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton1.setText("Numero Preguntas");
+        CantPreButton.setText("Numero Preguntas");
+        CantPreButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         menuInforme.setText("Informes");
 
@@ -272,28 +274,28 @@ public class TestFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(scrollPaneImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(400, 400, 400)
                         .addComponent(labelNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(buttonTema))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(CantPreButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(scrollPaneImagen, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(buttonTema)
-                .addGap(7, 7, 7)
+                .addGap(1, 1, 1)
                 .addComponent(labelNombre)
                 .addGap(3, 3, 3)
-                .addComponent(jButton1)
+                .addComponent(CantPreButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
@@ -337,8 +339,8 @@ public class TestFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CantPreButton;
     private javax.swing.JButton buttonTema;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JMenuBar menuBarExamen;
     private javax.swing.JMenu menuInforme;

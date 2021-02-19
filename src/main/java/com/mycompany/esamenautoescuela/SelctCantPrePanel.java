@@ -18,30 +18,30 @@ public class SelctCantPrePanel extends javax.swing.JPanel {
     }
 
     public int getValue() {
-        return jSlider1.getValue();
+        return cantPreSlider.getValue();
     }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jSlider1 = new javax.swing.JSlider(JSlider.HORIZONTAL, 5, 10, 10);
-        jLabel2 = new javax.swing.JLabel();
+        cantPreLabel = new javax.swing.JLabel();
+        cantPreSlider = new javax.swing.JSlider(JSlider.HORIZONTAL, 5, 10, 10);
+        imageLabel = new javax.swing.JLabel();
 
-        jLabel1.setText("Selecciona la cantidad de Preguntas");
+        cantPreLabel.setText("Selecciona la cantidad de Preguntas");
 
-        jSlider1.setMaximum(10);
-        jSlider1.setMinimum(5);
-        jSlider1.setPaintTicks(true);
-        jSlider1.setMajorTickSpacing(1);
-        jSlider1.setMinorTickSpacing(1);
-        jSlider1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jSlider1.setPaintLabels(true);
+        cantPreSlider.setMaximum(10);
+        cantPreSlider.setMinimum(5);
+        cantPreSlider.setPaintTicks(true);
+        cantPreSlider.setMajorTickSpacing(1);
+        cantPreSlider.setMinorTickSpacing(1);
+        cantPreSlider.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cantPreSlider.setPaintLabels(true);
 
-        jLabel2.setPreferredSize(new java.awt.Dimension(128, 128));
+        imageLabel.setPreferredSize(new java.awt.Dimension(64, 64));
         URL imageResource = Main.class.getClassLoader().getResource("informacion.png");
-        jLabel2.setIcon(new ImageIcon(imageResource));
+        imageLabel.setIcon(new ImageIcon(imageResource));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -49,32 +49,32 @@ public class SelctCantPrePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cantPreLabel)
+                    .addComponent(cantPreSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
+                        .addComponent(cantPreLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cantPreSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JSlider jSlider1;
+    private javax.swing.JLabel cantPreLabel;
+    private javax.swing.JSlider cantPreSlider;
+    private javax.swing.JLabel imageLabel;
     // End of variables declaration//GEN-END:variables
 }
