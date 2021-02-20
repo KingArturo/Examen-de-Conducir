@@ -1,4 +1,4 @@
-package com.mycompany.esamenautoescuela;
+package com.mycompany.arturo;
 
 import com.sun.tools.javac.Main;
 import java.awt.Color;
@@ -227,6 +227,7 @@ public class TestFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+        setMinimumSize(new java.awt.Dimension(1027, 512));
 
         labelNombre.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         labelNombre.setText("Autoescuela A&A");

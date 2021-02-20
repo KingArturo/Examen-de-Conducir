@@ -1,4 +1,4 @@
-package com.mycompany.esamenautoescuela;
+package com.mycompany.arturo;
 
 import java.net.URL;
 import javax.swing.JSlider;

@@ -1,5 +1,5 @@
 
-package com.mycompany.esamenautoescuela;
+package com.mycompany.arturo;
 
 import com.sun.tools.javac.Main;
 import java.awt.FlowLayout;
@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,15 +44,20 @@ public class PreguntasPanel extends javax.swing.JPanel {
         Collections.shuffle(preguntas);
         this.preguntas = preguntas;
         aciertos = 0;
-        preguntasRespondidas = 0;
+        preguntasRespondidas = 1;
         initComponents();
+        numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas));
         pregunta = cogerPregunta();
         formato();
+        temporizador();
+    }
+    
+    private void temporizador() {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 int seg = 0;
                 int min = 5;
-                while(min != 0 || seg != 0) {
+                while((min != 0 || seg != 0) && !Examen_Finalizado) {
                     try {
                         String s = "";
                         if(seg==0) {
@@ -74,16 +78,15 @@ public class PreguntasPanel extends javax.swing.JPanel {
                         Logger.getLogger(PreguntasPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                preguntasRespondidas=10;
+                Examen_Finalizado=true;
+                db.setRegistro((Cantidad_Preguntas-aciertos));
             }
         });
         t.start();
     }
     
     private String[] cogerPregunta() {
-        Random rn = new Random();
-        int num = rn.nextInt(preguntas.size());
-        return preguntas.get(preguntasRespondidas);
+        return preguntas.get(preguntasRespondidas-1);
     }
     
     private void formato() {
@@ -128,7 +131,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     }
     
     public void preguntaRespondida() {
-        jProgressBar1.setValue(preguntasRespondidas+1);
+        jProgressBar1.setValue(preguntasRespondidas);
     }
     
     private void addrespuestasListener(PreguntaButton pre) {
@@ -139,7 +142,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
                     if(pre.esCorrecta()) {
                         preguntaAcertada();
                     }
-                    if(preguntasRespondidas < (Cantidad_Preguntas-1)) {
+                    if(preguntasRespondidas < (Cantidad_Preguntas)) {
                       preguntasRespondidas++;
                       pregunta = cogerPregunta();
                       formato();
@@ -147,13 +150,14 @@ public class PreguntasPanel extends javax.swing.JPanel {
                     } else {
                         advertencia();
                     }
+                    numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas));
                 }
             }
         });  
     }
     
     private void advertencia() {
-        if(aciertos > (Cantidad_Preguntas*0.6)) {
+        if(aciertos > (Cantidad_Preguntas-4)) {
             JOptionPane.showConfirmDialog(this, "Has probado\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showConfirmDialog(this, "Has suspendido\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
@@ -161,8 +165,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         Examen_Finalizado = true;
         db.setRegistro((Cantidad_Preguntas-aciertos));
     }
-
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -174,6 +177,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         labelImagen = new javax.swing.JLabel();
         labelTiempo = new javax.swing.JLabel();
+        numeroPreguntaLabel = new javax.swing.JLabel();
 
         labelPregunta.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         labelPregunta.setText("Pregunta");
@@ -203,6 +207,11 @@ public class PreguntasPanel extends javax.swing.JPanel {
         labelTiempo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTiempo.setText("jLabel3");
 
+        numeroPreguntaLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        numeroPreguntaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numeroPreguntaLabel.setText("PreguntaNum");
+        numeroPreguntaLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,7 +226,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(labelTiempo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2)
+                            .addComponent(numeroPreguntaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollPaneRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -233,10 +244,11 @@ public class PreguntasPanel extends javax.swing.JPanel {
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPaneRespuesta, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                    .addComponent(scrollPaneRespuesta)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(numeroPreguntaLabel)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -248,6 +260,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelImagen;
     private javax.swing.JLabel labelPregunta;
     private javax.swing.JLabel labelTiempo;
+    private javax.swing.JLabel numeroPreguntaLabel;
     private javax.swing.JPanel panelRespuestas;
     private javax.swing.JScrollPane scrollPaneRespuesta;
     // End of variables declaration//GEN-END:variables

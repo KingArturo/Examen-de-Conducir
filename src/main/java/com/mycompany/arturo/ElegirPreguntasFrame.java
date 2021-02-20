@@ -1,5 +1,5 @@
 
-package com.mycompany.esamenautoescuela;
+package com.mycompany.arturo;
 
 import com.sun.tools.javac.Main;
 import java.awt.Image;
