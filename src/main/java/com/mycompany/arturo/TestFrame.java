@@ -257,6 +257,7 @@ public class TestFrame extends javax.swing.JFrame {
         menuItemGrafica = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         salirMenuItem = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
@@ -293,7 +294,7 @@ public class TestFrame extends javax.swing.JFrame {
         CantPreButton.setText("Numero Preguntas");
         CantPreButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        menuInforme.setText("Informes");
+        menuInforme.setText("Tools");
 
         menuItemGrafica.setText("Examenes");
         URL imageResource = Main.class.getClassLoader().getResource("barra-grafica.png");
@@ -302,9 +303,14 @@ public class TestFrame extends javax.swing.JFrame {
         menuInforme.add(jSeparator1);
 
         jMenuItem2.setText("Añadir");
+        imageResource = Main.class.getClassLoader().getResource("add.png");
+        jMenuItem2.setIcon(new ImageIcon(imageResource));
         menuInforme.add(jMenuItem2);
+        menuInforme.add(jSeparator2);
 
         salirMenuItem.setText("Salir");
+        imageResource = Main.class.getClassLoader().getResource("flecha.png");
+        salirMenuItem.setIcon(new ImageIcon(imageResource));
         menuInforme.add(salirMenuItem);
 
         menuBarExamen.add(menuInforme);
@@ -388,6 +394,7 @@ public class TestFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JMenuBar menuBarExamen;
     private javax.swing.JMenu menuInforme;

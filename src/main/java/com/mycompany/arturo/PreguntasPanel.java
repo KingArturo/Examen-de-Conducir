@@ -33,7 +33,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
         JLabel a = new JLabel(); 
         a.setBounds(100, 50, 256, 256);
         URL imageResource = Main.class.getClassLoader().getResource("logo.png");
-        a.setIcon(new ImageIcon(".\\.\\resources\\logo.png"));
+        //a.setIcon(new ImageIcon(".\\.\\resources\\logo.png"));
+        a.setIcon(new ImageIcon(imageResource));
         this.add(a);
         this.repaint();
     }
@@ -93,6 +94,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         String[] a = pregunta;
         labelPregunta.setText(a[1]);
         URL imageResource = Main.class.getClassLoader().getResource(a[2]);
+        //labelImagen.setIcon(new ImageIcon(".\\.\\resources\\"+a[2]));
         labelImagen.setIcon(new ImageIcon(imageResource));
         pre = new PreguntaButton[4];
         int cont = 0;

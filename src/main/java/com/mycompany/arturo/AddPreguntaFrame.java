@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.arturo;
 
 import com.sun.tools.javac.Main;
@@ -10,19 +5,23 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
+import javax.swing.JRootPane;
+import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *
+ * Clase que crea un JFrame que permite insertar una pregunta 
+ * con sus respectivas respuestas a la base de datos
  * @author Arturo
  */
 public class AddPreguntaFrame extends javax.swing.JFrame {
@@ -39,10 +38,19 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
     
     public AddPreguntaFrame(ConexionDB db) {
         this.db = db;
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+        this.setResizable(false);
         initComponents();
+        addButton.setEnabled(false);
         setExamenesComboBox();
         addAñadirButtonListener();
         addFotoButtonListener();
+        addTextAreaFocusListener();
+        addTextFieldFocusListener(correctaTextField);
+        addTextFieldFocusListener(respuesta2TextField);
+        addTextFieldFocusListener(respuesta3TextField);
+        addTextFieldFocusListener(respuesta4TextField);
     }
     
     @Override
@@ -67,8 +75,18 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         respuesta4TextField.setText("False3");
     }
     
+    private void comprobar() {
+        if(!preguntaTextArea.getText().isBlank() && !correctaTextField.getText().isBlank()
+                && !respuesta2TextField.getText().isBlank() && !respuesta3TextField.getText().isBlank()
+                && !respuesta4TextField.getText().isBlank()) {
+            addButton.setEnabled(true);
+        } else {
+            addButton.setEnabled(false);
+        }
+    }
+    
     private void addAñadirButtonListener() {
-        jButton1.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = String.valueOf(examenesComboBox.getSelectedItem()).split("-")[0];
@@ -82,6 +100,28 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         });  
     }
     
+    private void addTextAreaFocusListener() {
+        preguntaTextArea.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+
+            }
+            public void focusLost(FocusEvent e) {
+                comprobar();
+            }
+        });
+    }
+    
+    private void addTextFieldFocusListener(JTextField textField) {
+        textField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+
+            }
+            public void focusLost(FocusEvent e) {
+                comprobar();
+            }
+        });
+    }
+    
     private void addFotoButtonListener() {
         fotoButton.addActionListener(new ActionListener() {
             @Override
@@ -93,14 +133,16 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                 int seleccion = fc.showOpenDialog(editorPane1);
                 if (seleccion == JFileChooser.APPROVE_OPTION){
                     imageLabel.setText(fc.getSelectedFile().getName());
+                    File padre = new File("resources");
+                    //File destino = new File(padre.getAbsolutePath(),fc.getSelectedFile().getName());
                     File destino = new File("src/main/resources",fc.getSelectedFile().getName());
-                    System.out.println(destino.getAbsolutePath());
                     try {
                         Files.copy(Paths.get(fc.getSelectedFile().getAbsolutePath())
                                 , Paths.get(destino.getAbsolutePath())
                                 , StandardCopyOption.REPLACE_EXISTING);
                     } catch(Exception ex) {
                         ex.printStackTrace();
+                        preguntaTextArea.setText(ex.toString());
                     }                    
                     Image img = new ImageIcon(fc.getSelectedFile().getAbsolutePath()).getImage();
                     Image newimg = img.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
@@ -129,7 +171,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         false1Label = new javax.swing.JLabel();
         false2Label = new javax.swing.JLabel();
         false3Label = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
         imagenLabel = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
         fotoButton = new javax.swing.JButton();
@@ -161,7 +203,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
 
         false3Label.setText("Respuesta 4");
 
-        jButton1.setText("Añadir");
+        addButton.setText("Añadir");
 
         imagenLabel.setText("Imagen");
 
@@ -204,7 +246,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(addButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(imagenLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -244,49 +286,16 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                         .addComponent(imageLabel))
                     .addComponent(fotoButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(addButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddPreguntaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddPreguntaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddPreguntaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPreguntaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddPreguntaFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
     private javax.swing.JLabel correctaLabel;
     private javax.swing.JTextField correctaTextField;
     private javax.swing.JLabel examenLabel;
@@ -297,7 +306,6 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
     private javax.swing.JButton fotoButton;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel imagenLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel preguntaLabel;
     private javax.swing.JTextArea preguntaTextArea;

@@ -11,7 +11,7 @@
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="menuInforme">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Informes"/>
+            <Property name="text" type="java.lang.String" value="Tools"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="menuItemGrafica">
@@ -28,11 +28,19 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="imageResource = Main.class.getClassLoader().getResource(&quot;add.png&quot;);&#xa;jMenuItem2.setIcon(new ImageIcon(imageResource));"/>
+              </AuxValues>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="salirMenuItem">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="imageResource = Main.class.getClassLoader().getResource(&quot;flecha.png&quot;);&#xa;salirMenuItem.setIcon(new ImageIcon(imageResource));"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -32,7 +32,6 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="elegirButton" max="32767" attributes="0"/>
                   <Component id="startButton" max="32767" attributes="0"/>
-                  <Component id="onlineButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="128" max="32767" attributes="0"/>
           </Group>
@@ -45,9 +44,7 @@
               <Component id="elegirButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="startButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="onlineButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="113" max="32767" attributes="0"/>
+              <EmptySpace pref="151" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -67,14 +64,6 @@
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="imageResource = Main.class.getClassLoader().getResource(&quot;play.png&quot;);&#xa;        startButton.setIcon(new ImageIcon(imageResource));&#xa;&#xa;        // Texto en el centro y debajo del icono&#xa;        startButton.setHorizontalTextPosition( SwingConstants.LEFT );&#xa;        startButton.setHorizontalTextPosition( SwingConstants.RIGHT );"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="onlineButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Online"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="imageResource = Main.class.getClassLoader().getResource(&quot;servidor.png&quot;);&#xa;onlineButton.setIcon(new ImageIcon(imageResource));"/>
       </AuxValues>
     </Component>
   </SubComponents>
