@@ -83,6 +83,43 @@ public class ConexionDB {
         }
     }
     
+    public boolean setPregunta(String pregunta, String imagen, int examen) {
+        boolean insertado = false;
+        try {
+            ResultSet examenes = statement.executeQuery("SELECT * FROM preguntas ORDER BY id DESC");
+            int num = 1;
+            if(examenes.next()) {
+                num = examenes.getInt(1);
+            }
+            int insert = statement.executeUpdate("INSERT INTO preguntas VALUES ("+(num+1)+", '"+pregunta+"', '"+imagen+"', "+examen+");");
+            if(insert > 0) {
+                insertado = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return insertado;
+    }
+    
+    public void setRespuesta(String respuesta, String correcta) {
+        try {
+            ResultSet examenes = statement.executeQuery("SELECT * FROM preguntas ORDER BY id DESC");
+            int num = 1;
+            if(examenes.next()) {
+                num = examenes.getInt(1);
+            }
+            examenes = statement.executeQuery("SELECT * FROM respuestas ORDER BY id DESC");
+            int idRespuesta = 1;
+            if(examenes.next()) {
+                idRespuesta = examenes.getInt(1)+1;
+            }
+            int insert = statement.executeUpdate("INSERT INTO respuestas VALUES ("+idRespuesta+",'"+respuesta+"','"+correcta+"',"+num+");");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public ArrayList<String[]> getRegistros() {
         ArrayList<String[]> registros = new ArrayList<>();
         try {

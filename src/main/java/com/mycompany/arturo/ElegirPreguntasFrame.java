@@ -1,13 +1,22 @@
 
 package com.mycompany.arturo;
 
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.sun.tools.javac.Main;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,6 +34,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
          initComponents();
          addElegirButtonListener();
          addEmpezarButtonListener();
+         addOnlineButtonListener();
     }
     
         
@@ -41,18 +51,18 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
     */
     private void addElegirButtonListener() {
          elegirButton.addActionListener(new ActionListener() {
-                  @Override
-                  public void actionPerformed(ActionEvent e) {     
-                           editorPane1 = new JEditorPane(); 
-                           FileNameExtensionFilter filter = new FileNameExtensionFilter("DataBase", "db");
-                           JFileChooser fc = new JFileChooser();
-                           fc.setFileFilter(filter);
-                           int seleccion = fc.showOpenDialog(editorPane1);
-                           if (seleccion == JFileChooser.APPROVE_OPTION){
-                               preguntasfile = fc.getSelectedFile();
-                               conexion = new ConexionDB(preguntasfile);
-                           }
-                  }
+            @Override
+            public void actionPerformed(ActionEvent e) {     
+                editorPane1 = new JEditorPane(); 
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("DataBase", "db");
+                JFileChooser fc = new JFileChooser();
+                fc.setFileFilter(filter);
+                int seleccion = fc.showOpenDialog(editorPane1);
+                if (seleccion == JFileChooser.APPROVE_OPTION){
+                    preguntasfile = fc.getSelectedFile();
+                    conexion = new ConexionDB(preguntasfile);
+                }
+            }
         });  
     }
     
@@ -71,6 +81,17 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                   }
         });  
     }
+
+     
+
+    private void addOnlineButtonListener() {
+        onlineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {     
+               
+            }
+        }); 
+    }
     
     private void advertencia() {
         JOptionPane.showConfirmDialog(this, "No has cogido las preguntas", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -79,6 +100,23 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
     private void closeFrame() {
         this.dispose();
     }
+    
+    /*public static Credential authorize() throws IOException {
+        // Load client secrets.
+        InputStream in = DriveFiles.class.getResourceAsStream("/client_secret.json");
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        // Build flow and trigger user authorization request.
+        GoogleAuthorizationCodeFlow flow =
+                new GoogleAuthorizationCodeFlow.Builder(
+                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                        .setDataStoreFactory(DATA_STORE_FACTORY)
+                        .setAccessType("offline")
+                        .build();
+        Credential credential = new AuthorizationCodeInstalledApp(
+                flow, new LocalServerReceiver()).authorize("user");
+        System.out.println("Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+    return credential;
+    }*/
 
 
     /*@SuppressWarnings("unchecked");*/
@@ -87,6 +125,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
 
         elegirButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
+        onlineButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -108,6 +147,10 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         startButton.setHorizontalTextPosition( SwingConstants.LEFT );
         startButton.setHorizontalTextPosition( SwingConstants.RIGHT );
 
+        onlineButton.setText("Online");
+        imageResource = Main.class.getClassLoader().getResource("servidor.png");
+        onlineButton.setIcon(new ImageIcon(imageResource));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,7 +159,8 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                 .addGap(128, 128, 128)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(elegirButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(onlineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(128, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,7 +170,9 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                 .addComponent(elegirButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startButton)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(onlineButton)
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,6 +204,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton elegirButton;
+    private javax.swing.JButton onlineButton;
     private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 }

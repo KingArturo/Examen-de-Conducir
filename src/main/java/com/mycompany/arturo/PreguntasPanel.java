@@ -33,7 +33,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         JLabel a = new JLabel(); 
         a.setBounds(100, 50, 256, 256);
         URL imageResource = Main.class.getClassLoader().getResource("logo.png");
-        a.setIcon(new ImageIcon(imageResource));
+        a.setIcon(new ImageIcon(".\\.\\resources\\logo.png"));
         this.add(a);
         this.repaint();
     }
@@ -46,7 +46,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         aciertos = 0;
         preguntasRespondidas = 1;
         initComponents();
-        numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas));
+        setNumeroPreguntaLabel();
         pregunta = cogerPregunta();
         formato();
         temporizador();
@@ -134,6 +134,10 @@ public class PreguntasPanel extends javax.swing.JPanel {
         jProgressBar1.setValue(preguntasRespondidas);
     }
     
+    private void setNumeroPreguntaLabel() {
+        numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas)+" de "+Cantidad_Preguntas);
+    }
+    
     private void addrespuestasListener(PreguntaButton pre) {
         pre.addActionListener(new ActionListener() {
             @Override
@@ -150,7 +154,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
                     } else {
                         advertencia();
                     }
-                    numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas));
+                    setNumeroPreguntaLabel();
                 }
             }
         });  

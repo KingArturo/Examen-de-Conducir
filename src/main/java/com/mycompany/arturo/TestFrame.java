@@ -18,7 +18,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
-import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.jfree.chart.*;
@@ -67,6 +66,8 @@ public class TestFrame extends javax.swing.JFrame {
         }
         panelImagen.repaint();
         addMenuListener();
+        addMenuListenerSalir();
+        addAnadirMenuListener();
     }
             
          
@@ -86,6 +87,12 @@ public class TestFrame extends javax.swing.JFrame {
         scrollPanePreguntas.revalidate();
         this.repaint();
         this.revalidate();
+    }
+    
+    private void salir() {
+        this.dispose();
+        ElegirPreguntasFrame frame = new ElegirPreguntasFrame();
+        frame.setVisible(true);
     }
     
     private void addButtonListener(TipoExamen button) {
@@ -143,6 +150,29 @@ public class TestFrame extends javax.swing.JFrame {
                 showGrafica();
             }
         });  
+    }
+    
+    private void addMenuListenerSalir() {
+        salirMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                salir();
+            }
+        });  
+    }
+    
+    private void addAnadirMenuListener() {
+        jMenuItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { 
+                addPreguntaFrame();
+            }
+        }); 
+    }
+    
+    private void addPreguntaFrame() {
+        AddPreguntaFrame a = new AddPreguntaFrame(db);
+        a.setVisible(true);
     }
     
     private void addBotonCantPreguntasListener() {
@@ -215,6 +245,7 @@ public class TestFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         labelNombre = new javax.swing.JLabel();
         scrollPanePreguntas = new javax.swing.JScrollPane();
         scrollPaneImagen = new javax.swing.JScrollPane();
@@ -224,6 +255,11 @@ public class TestFrame extends javax.swing.JFrame {
         menuBarExamen = new javax.swing.JMenuBar();
         menuInforme = new javax.swing.JMenu();
         menuItemGrafica = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        salirMenuItem = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
@@ -263,6 +299,13 @@ public class TestFrame extends javax.swing.JFrame {
         URL imageResource = Main.class.getClassLoader().getResource("barra-grafica.png");
         menuItemGrafica.setIcon(new ImageIcon(imageResource));
         menuInforme.add(menuItemGrafica);
+        menuInforme.add(jSeparator1);
+
+        jMenuItem2.setText("Añadir");
+        menuInforme.add(jMenuItem2);
+
+        salirMenuItem.setText("Salir");
+        menuInforme.add(salirMenuItem);
 
         menuBarExamen.add(menuInforme);
 
@@ -342,11 +385,15 @@ public class TestFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CantPreButton;
     private javax.swing.JButton buttonTema;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JLabel labelNombre;
     private javax.swing.JMenuBar menuBarExamen;
     private javax.swing.JMenu menuInforme;
     private javax.swing.JMenuItem menuItemGrafica;
     private javax.swing.JPanel panelImagen;
+    private javax.swing.JMenuItem salirMenuItem;
     private javax.swing.JScrollPane scrollPaneImagen;
     private javax.swing.JScrollPane scrollPanePreguntas;
     // End of variables declaration//GEN-END:variables
