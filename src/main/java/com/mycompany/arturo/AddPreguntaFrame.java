@@ -5,12 +5,17 @@
  */
 package com.mycompany.arturo;
 
+import com.sun.tools.javac.Main;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -38,6 +43,13 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         setExamenesComboBox();
         addAñadirButtonListener();
         addFotoButtonListener();
+    }
+    
+    @Override
+    public Image getIconImage() {
+        URL imageResource = Main.class.getClassLoader().getResource("prueba.png");
+        Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
+        return retValue;
     }
     
     private void setExamenesComboBox() {
@@ -89,7 +101,11 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                                 , StandardCopyOption.REPLACE_EXISTING);
                     } catch(Exception ex) {
                         ex.printStackTrace();
-                    }
+                    }                    
+                    Image img = new ImageIcon(fc.getSelectedFile().getAbsolutePath()).getImage();
+                    Image newimg = img.getScaledInstance(20, 20,  java.awt.Image.SCALE_SMOOTH);
+                    ImageIcon imageIcon = new ImageIcon(newimg); 
+                    imageLabel.setIcon(imageIcon);
                 }
             }
         });  
@@ -103,50 +119,51 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         examenesComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         preguntaTextArea = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        examenLabel = new javax.swing.JLabel();
+        preguntaLabel = new javax.swing.JLabel();
         correctaTextField = new javax.swing.JTextField();
         respuesta2TextField = new javax.swing.JTextField();
         respuesta3TextField = new javax.swing.JTextField();
         respuesta4TextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        correctaLabel = new javax.swing.JLabel();
+        false1Label = new javax.swing.JLabel();
+        false2Label = new javax.swing.JLabel();
+        false3Label = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        imagenLabel = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
         fotoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(getIconImage());
 
         preguntaTextArea.setColumns(20);
         preguntaTextArea.setRows(5);
         jScrollPane1.setViewportView(preguntaTextArea);
 
-        jLabel1.setText("Examen");
+        examenLabel.setText("Examen");
 
-        jLabel2.setText("Pregunta");
+        preguntaLabel.setText("Pregunta");
 
-        correctaTextField.setText("jTextField1");
+        correctaTextField.setText("Correcta");
 
-        respuesta2TextField.setText("jTextField2");
+        respuesta2TextField.setText("False1");
 
-        respuesta3TextField.setText("jTextField3");
+        respuesta3TextField.setText("False2");
 
-        respuesta4TextField.setText("jTextField4");
+        respuesta4TextField.setText("False3");
 
-        jLabel3.setText("Respuesta 1(Correcta)");
+        correctaLabel.setText("Respuesta 1(Correcta)");
 
-        jLabel4.setText("Respuesta 2");
+        false1Label.setText("Respuesta 2");
 
-        jLabel5.setText("Respuesta 3");
+        false2Label.setText("Respuesta 3");
 
-        jLabel6.setText("Respuesta 4");
+        false3Label.setText("Respuesta 4");
 
         jButton1.setText("Añadir");
 
-        jLabel7.setText("Imagen");
+        imagenLabel.setText("Imagen");
 
         imageLabel.setText("no-photo.png");
 
@@ -161,12 +178,12 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(examenLabel)
+                            .addComponent(preguntaLabel)
+                            .addComponent(correctaLabel)
+                            .addComponent(false1Label)
+                            .addComponent(false2Label)
+                            .addComponent(false3Label))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(58, 58, 58)
@@ -189,7 +206,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addComponent(imagenLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -199,31 +216,31 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(examenesComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(examenLabel))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(preguntaLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(correctaTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(correctaLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(respuesta2TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(false1Label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(respuesta3TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(false2Label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(respuesta4TextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(false3Label))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
+                        .addComponent(imagenLabel)
                         .addComponent(imageLabel))
                     .addComponent(fotoButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,19 +287,19 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel correctaLabel;
     private javax.swing.JTextField correctaTextField;
+    private javax.swing.JLabel examenLabel;
     private javax.swing.JComboBox<String> examenesComboBox;
+    private javax.swing.JLabel false1Label;
+    private javax.swing.JLabel false2Label;
+    private javax.swing.JLabel false3Label;
     private javax.swing.JButton fotoButton;
     private javax.swing.JLabel imageLabel;
+    private javax.swing.JLabel imagenLabel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel preguntaLabel;
     private javax.swing.JTextArea preguntaTextArea;
     private javax.swing.JTextField respuesta2TextField;
     private javax.swing.JTextField respuesta3TextField;
