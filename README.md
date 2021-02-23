@@ -85,10 +85,3 @@ hace referencia a la pregunta, una vez seleccionado la imagen se copiara a la ca
 ## Autor ✒️
 
 * **Arturo Monje Robles** - *Trabajo Inicial* - [KingArturo](https://github.com/KingArturo)
-
-## Expresiones de Gratitud 🎁
-
-* Comenta a otros sobre este proyecto 📢
-* Invita una cerveza 🍺 o un café ☕ a alguien del equipo. 
-* Da las gracias públicamente 🤓.
-* etc.
