@@ -90,26 +90,26 @@ La base de datos dispondrá de 4 tablas:
 * registro
 
 ### examenes
-La tabla examenes cuanta con dos campos:
+La tabla examenes cuenta con dos campos:
 * id que es un INTEGER(9) y es calve primaria.
 * nombre que es un VARCHAR(20).
 
 ### preguntas
-La tabla preguntas cuanta con 4 campos:
+La tabla preguntas cuenta con 4 campos:
 * id que es un INTEGER(9) y es calve primaria.
 * pregunta que es un VARCHAR(100).
 * imagen que es un VARCHAR(100).
 * examen que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla examenes.
 
 ### respuestas
-La tabla respuestas cuanta con 4:
+La tabla respuestas cuenta con 4:
 * id que es un INTEGER(9) y clave primaria.
 * respuesta que es un VARCHAR(100).
 * correcta que es un VARCHAR(5).
 * pregunta que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla preguntas.
 
 ### registro
-Tabla que contien 2 campos:
+Tabla que contiene 2 campos:
 * aciertos que es un INT(9).
 * examen que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla examenes.
 
