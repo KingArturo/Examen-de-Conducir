@@ -16,7 +16,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-
+/**
+ * Clase que crea un JPanel con una pregunta y las respuestas
+ * asi como la imagen relacionada con la pregunta
+ * @author Arturo
+ */
 public class PreguntasPanel extends javax.swing.JPanel {
 
     private ArrayList<String[]> preguntas;
@@ -27,7 +31,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private boolean Examen_Finalizado = false;
     private int aciertos;
     private ConexionDB db;
-
+    /*
+    * Constructor que crea el panel sin preguntas
+    */
     public PreguntasPanel() {
         this.setLayout(new FlowLayout());
         JLabel a = new JLabel(); 
@@ -38,7 +44,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
         this.add(a);
         this.repaint();
     }
-    
+    /*
+    * Constructor que crea el panel con la pregunta y sus posibles respuestas
+    */
     public PreguntasPanel(ArrayList<String[]> preguntas, ConexionDB db, int cantPreguntas) {
         this.db = db;
         Cantidad_Preguntas = cantPreguntas;
@@ -52,7 +60,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
         formato();
         temporizador();
     }
-    
+    // Crea el temporizador que determina el tiempo del examen
     private void temporizador() {
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -85,11 +93,13 @@ public class PreguntasPanel extends javax.swing.JPanel {
         });
         t.start();
     }
-    
+    // Coge una pregunta del ArraList preguntas
     private String[] cogerPregunta() {
         return preguntas.get(preguntasRespondidas-1);
     }
-    
+    /*
+    * Pone lad pregunta en el lable labelPregunta y crea las respuestas
+    */
     private void formato() {
         String[] a = pregunta;
         labelPregunta.setText(a[1]);
@@ -139,7 +149,10 @@ public class PreguntasPanel extends javax.swing.JPanel {
     private void setNumeroPreguntaLabel() {
         numeroPreguntaLabel.setText(String.valueOf(preguntasRespondidas)+" de "+Cantidad_Preguntas);
     }
-    
+    /*
+    * Añade a los botones de las respuestas un listener que comprueba
+    * se la pregunta pulsada es correcta o no
+    */
     private void addrespuestasListener(PreguntaButton pre) {
         pre.addActionListener(new ActionListener() {
             @Override
@@ -161,7 +174,9 @@ public class PreguntasPanel extends javax.swing.JPanel {
             }
         });  
     }
-    
+    /*
+    * Muestra un dialogo que muestra si has aprobado o no y la cantidad de aciertos
+    */
     private void advertencia() {
         if(aciertos > (Cantidad_Preguntas-4)) {
             JOptionPane.showConfirmDialog(this, "Has probado\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);

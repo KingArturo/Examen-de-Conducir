@@ -44,7 +44,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         initComponents();
         addButton.setEnabled(false);
         setExamenesComboBox();
-        addAñadirButtonListener();
+        addAnadirButtonListener();
         addFotoButtonListener();
         addTextAreaFocusListener();
         addTextFieldFocusListener(correctaTextField);
@@ -59,13 +59,17 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
         return retValue;
     }
-    
+    /*
+    * Rellena el ComboBox con los examenes disponibles
+    */
     private void setExamenesComboBox() {
         for(String[] a : db.getExamenes()) {
             examenesComboBox.addItem(a[0]+"-"+a[1]);
         }
     }
-    
+    /*
+    * Limpia los campos del formulario
+    */
     private void clean() {
         examenesComboBox.setSelectedIndex(0);
         preguntaTextArea.setText(null);
@@ -74,7 +78,9 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         respuesta3TextField.setText("False2");
         respuesta4TextField.setText("False3");
     }
-    
+    /*
+    * Coprueba que los campos de formulario contienen informacio
+    */
     private void comprobar() {
         if(!preguntaTextArea.getText().isBlank() && !correctaTextField.getText().isBlank()
                 && !respuesta2TextField.getText().isBlank() && !respuesta3TextField.getText().isBlank()
@@ -84,8 +90,11 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
             addButton.setEnabled(false);
         }
     }
-    
-    private void addAñadirButtonListener() {
+    /*
+    * Metodo que añade un listener al boton addButton
+    * que al ser pulsado añade la pregunta a la base de datos
+    */
+    private void addAnadirButtonListener() {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +108,9 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
             }
         });  
     }
-    
+    /*
+    * Focus listener para el TextArea
+    */
     private void addTextAreaFocusListener() {
         preguntaTextArea.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -110,7 +121,9 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+    /*
+    * Focus listener para los TextField
+    */
     private void addTextFieldFocusListener(JTextField textField) {
         textField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -121,7 +134,11 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+    /*
+    * Cuando pulsas el boton fotoButon se abre un explorador de archivos
+    * para que puedas coger una imagen para la pregunta
+    * una vez seleccionada la imagen se copia a la carpeta resources
+    */
     private void addFotoButtonListener() {
         fotoButton.addActionListener(new ActionListener() {
             @Override

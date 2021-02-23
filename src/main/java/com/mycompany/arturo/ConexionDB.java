@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Clase que se encarga de las conexiones con la base de datos
+ * @author Arturo
+ */
 public class ConexionDB {
     
     private Connection connection;
@@ -29,6 +32,9 @@ public class ConexionDB {
         }
     }
     
+    /*
+    * Devuelve un ArratList de arrays de String con los examenes
+    */
     public ArrayList<String[]> getExamenes() {
         ArrayList<String[]> examenes = new ArrayList<>();
         try {
@@ -44,6 +50,9 @@ public class ConexionDB {
         return examenes;
     }
     
+    /*
+    * Devuelve un ArratList de arrays de String con las preguntas de un examen
+    */
     public ArrayList<String[]> getPreguntas(int id) {
         ArrayList<String[]> preguntas = new ArrayList<>();
         examenActual=id;
@@ -59,7 +68,9 @@ public class ConexionDB {
         }
         return preguntas;
     }
-    
+    /*
+    * Devuelve un ArratList de arrays de String con las respuestas de una pregunta
+    */
     public ArrayList<String[]> getRespuestas(int id) {
         ArrayList<String[]> respuestas = new ArrayList<>();
         try {
@@ -74,7 +85,9 @@ public class ConexionDB {
         }
         return respuestas;
     }
-    
+    /*
+    * Inserta en la tabla registro los aciertos de un examen
+    */
     public void setRegistro(int aciertos) {
         try {
             statement.execute("INSERT INTO registro VALUES("+aciertos+","+examenActual+");");
@@ -82,7 +95,9 @@ public class ConexionDB {
             Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /*
+    * Inserte en la tabla preguntas un pregunta
+    */
     public boolean setPregunta(String pregunta, String imagen, int examen) {
         boolean insertado = false;
         try {
@@ -100,7 +115,9 @@ public class ConexionDB {
         }
         return insertado;
     }
-    
+    /*
+    * Inserta en la tabla respuestas una respuesta
+    */
     public void setRespuesta(String respuesta, String correcta) {
         try {
             ResultSet examenes = statement.executeQuery("SELECT * FROM preguntas ORDER BY id DESC");
@@ -119,7 +136,9 @@ public class ConexionDB {
             Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /*
+    * Devuelve un ArratList de arrays de String con los examenes hecho y si estan o no aprobados
+    */
     public ArrayList<String[]> getRegistros() {
         ArrayList<String[]> registros = new ArrayList<>();
         try {

@@ -61,6 +61,10 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         });  
     }
     
+    /*
+    * Metodo que añade un listener al boton startButton y cuando este
+    * es pulsado crea el frame del test
+    */
     private void addEmpezarButtonListener() {
         startButton.addActionListener(new ActionListener() {
                   @Override
@@ -77,11 +81,16 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         });  
     }
 
-         
+    /*
+    * Muestra un dialogo con una avertencia
+    */
     private void advertencia() {
         JOptionPane.showConfirmDialog(this, "No has cogido las preguntas", "Advertencia", JOptionPane.WARNING_MESSAGE);
     }
     
+    /*
+    * Cierra el frame
+    */
     private void closeFrame() {
         this.dispose();
     }

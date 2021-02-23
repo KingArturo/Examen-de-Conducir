@@ -5,14 +5,12 @@ import javax.swing.JSlider;
 import com.sun.tools.javac.Main;
 import javax.swing.ImageIcon;
 /**
- *
+ * Clase que crea un JPanel que contiene unSlider para seleccionar 
+ * la cantidad de preguntas de los examenes
  * @author Arturo
  */
 public class SelctCantPrePanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form SelctCantPrePanel
-     */
     public SelctCantPrePanel() {
         initComponents();
     }

@@ -29,7 +29,11 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-
+/**
+ * Clase que crea un JPanel que va a contener los examenes, el menu con la grafica 
+ * y el añadir pregunta junto con el boton para seleccionar la cantidad de preguntas
+ * @author Arturo
+ */
 public class TestFrame extends javax.swing.JFrame {
 
     private ConexionDB db;

@@ -1,5 +1,8 @@
 package com.mycompany.arturo;
-
+/**
+ * Clase que crea un boton para el examen
+ * @author Arturo
+ */
 public class TipoExamen extends javax.swing.JButton {
     
     private String nombre;
@@ -8,7 +11,9 @@ public class TipoExamen extends javax.swing.JButton {
     public TipoExamen() {
         initComponents();
     }
-    
+    /*
+    * Constructor que crea el boton con la info del examen
+    */
     public TipoExamen(int id,String nombre) {
         this.id = id;
         this.nombre = nombre;
