@@ -5,19 +5,19 @@ Aplicacion que apartir de la información de una base de datos permite realizar 
 ## Interface 🚀
 
 La interface dispone de una pantalla que contiene dos botones y que permite selecciones la base de datos (sqlite) que contiene los 
-examenes.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/pantalla1.png)
+examenes.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/pantalla1.png)<br />
 Cuando se pulsa el boton _Empezar_ se cierra la ventana que permite seleccionar los examenes y se muestra la ventana en 
-la que se mostraran los examenes y donde se podrán hacer los examenes.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/pantalla2.png)
-En esa misma ventana podremmos cambiar el numero de preguntas de los examenes.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/numPreguntas.PNG)
-Tambien cuenta con un menu que permite visualizar una grafica con los examenes realizados.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/grafica.PNG)
-Ese mismo menu contiene una opción que permite añadir una pregunta.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/addPregunta.PNG)
-Y por último el menu cuanta con una opcion que permite regresar al la ventana de seleccion de examenes.
-![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/salir.PNG)
+la que se mostraran los examenes y donde se podrán hacer los examenes.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/pantalla2.png)<br />
+En esa misma ventana podremmos cambiar el numero de preguntas de los examenes.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/numPreguntas.png)<br />
+Tambien cuenta con un menu que permite visualizar una grafica con los examenes realizados.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/grafica.png)<br />
+Ese mismo menu contiene una opción que permite añadir una pregunta.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/addPregunta.png)<br />
+Y por último el menu cuanta con una opcion que permite regresar al la ventana de seleccion de examenes.<br />
+![Screenshot](https://github.com/KingArturo/Examen-de-Conducir/blob/master/image/salir.png)<br />
 
 ## Pre-requisitos 📋
 
@@ -81,6 +81,37 @@ Clase que extiende de JFrame y que contiene un formulario con un ComboBox que co
 un campo TextArea y 4 TextFiel en los que se introducira la nueva pregunta que se desee añadir.
 Tambien dispone de un boton que abre un explorador de archivo en el que se podrá seleccionar la imagen que 
 hace referencia a la pregunta, una vez seleccionado la imagen se copiara a la carpeta resources del proyecto.
+
+## Base de datos
+La base de datos dispondrá de 4 tablas:
+* examenes
+* preguntas
+* respuestas
+* registro
+
+### examenes
+La tabla examenes cuanta con dos campos:
+* id que es un INTEGER(9) y es calve primaria.
+* nombre que es un VARCHAR(20).
+
+### preguntas
+La tabla preguntas cuanta con 4 campos:
+* id que es un INTEGER(9) y es calve primaria.
+* pregunta que es un VARCHAR(100).
+* imagen que es un VARCHAR(100).
+* examen que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla examenes.
+
+### respuestas
+La tabla respuestas cuanta con 4:
+* id que es un INTEGER(9) y clave primaria.
+* respuesta que es un VARCHAR(100).
+* correcta que es un VARCHAR(5).
+* pregunta que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla preguntas.
+
+### registro
+Tabla que contien 2 campos:
+* aciertos que es un INT(9).
+* examen que es un INTEGER(9) y es una clavle ajena que hace referencia con el campo id de la tabla examenes.
 
 ## Autor ✒️
 
