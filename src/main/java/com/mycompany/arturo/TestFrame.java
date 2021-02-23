@@ -49,7 +49,10 @@ public class TestFrame extends javax.swing.JFrame {
         initComponents();
         addListenerTheme();
     }
-    
+    /**
+     * Constructor que inicializa todos los componentes necesarios 
+     * para hacer los examenes
+     */
     public TestFrame(ConexionDB db) {
         this.db = db;
         this.setUndecorated(true);
@@ -81,7 +84,9 @@ public class TestFrame extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
         return retValue;
     }
-    
+    /**
+     * Crea y visualiza el Panel que mustar las preguntas
+     */
     private void crearPreguntas(int id) {    
         preguntasPanel1 = new PreguntasPanel(db.getPreguntas(id),db, cantPreguntas);
         preguntasPanel1.repaint();
@@ -98,7 +103,10 @@ public class TestFrame extends javax.swing.JFrame {
         ElegirPreguntasFrame frame = new ElegirPreguntasFrame();
         frame.setVisible(true);
     }
-    
+    /**
+     * Listener para los botones de los examenes que creara el Panel con 
+     * las preguntas de un examen
+     */
     private void addButtonListener(TipoExamen button) {
         button.addActionListener(new ActionListener() {
             @Override
@@ -124,7 +132,9 @@ public class TestFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+    /**
+     * Cambia el look and feel a un oscuro
+     */
     private void temaOscuro(JButton button) {
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialOceanicContrastIJTheme());
@@ -135,7 +145,9 @@ public class TestFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
+    /**
+     * Cambia el look and feel a un claro
+     */
     private void tamaClaro(JButton button) {
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterContrastIJTheme());
@@ -146,7 +158,9 @@ public class TestFrame extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
+    /**
+     * Añade un listener a un MenuItem que mostrara una grafica
+     */
     private void addMenuListener() {
         menuItemGrafica.addActionListener(new ActionListener() {
             @Override
@@ -155,7 +169,9 @@ public class TestFrame extends javax.swing.JFrame {
             }
         });  
     }
-    
+    /**
+     * Añade un listener a un MenuItem que saldra de la aplicacion
+     */
     private void addMenuListenerSalir() {
         salirMenuItem.addActionListener(new ActionListener() {
             @Override
@@ -164,7 +180,9 @@ public class TestFrame extends javax.swing.JFrame {
             }
         });  
     }
-    
+    /**
+     * Añade un listener a un MenuItem que mostrara un Frame para añadir una pregunta
+     */
     private void addAnadirMenuListener() {
         jMenuItem2.addActionListener(new ActionListener() {
             @Override
@@ -173,12 +191,17 @@ public class TestFrame extends javax.swing.JFrame {
             }
         }); 
     }
-    
+    /**
+     * Crea y visualiza el Frame que servira para añadir una pregunta nueva
+     */
     private void addPreguntaFrame() {
         AddPreguntaFrame a = new AddPreguntaFrame(db);
         a.setVisible(true);
     }
-    
+    /**
+     * Listener para el boton cantPreButton que mostrara un dialogo que permite
+     * seleccionar la cantidad de preguntas de los examenes
+     */
     private void addBotonCantPreguntasListener() {
         CantPreButton.addActionListener(new ActionListener() {
             @Override
@@ -187,7 +210,10 @@ public class TestFrame extends javax.swing.JFrame {
             }
         });  
     }
-    
+    /*
+    * Muestra un dialogo que permite seleccionar la cantidad de preguntas de 
+    * los examenes
+    */
     private void mostrarDialogoCantPreguntas() {
         SelctCantPrePanel pn = new SelctCantPrePanel();
         JOptionPane.showConfirmDialog(null,
@@ -197,15 +223,19 @@ public class TestFrame extends javax.swing.JFrame {
                         JOptionPane.PLAIN_MESSAGE);
         cantPreguntas = pn.getValue();
     }
-    
+    /*
+    * Genera un grafico apartir de la informacion de la tabla registro
+    */
     private void showGrafica() {
         DefaultCategoryDataset datos = new DefaultCategoryDataset();
         ArrayList<String[]> registros = db.getRegistros();
+        // Añade los datos a la grafica
         for(String[] registro : registros) {
             datos.addValue(Integer.parseInt(registro[0]), registro[1], registro[2]);        
         }
         CategoryAxis categoryAxis = new CategoryAxis("Examenes");
         ValueAxis valueAxis = new NumberAxis("Realizados");
+        // Estilo de las barras de la grafica
         BarRenderer renderer = new BarRenderer() {
 
             @Override
@@ -224,16 +254,18 @@ public class TestFrame extends javax.swing.JFrame {
         };
         renderer.setDrawBarOutline(false);
         renderer.setBarPainter(new StandardBarPainter());
+        // Tooltip de las barras de la grafica
         StandardCategoryToolTipGenerator generator =
           new StandardCategoryToolTipGenerator("{1}, {2}", NumberFormat.getInstance());
         renderer.setDefaultToolTipGenerator(generator);
         CategoryPlot plot = new CategoryPlot(datos, categoryAxis, valueAxis, renderer);
+        // Añade la leyenda de la grafica
         LegendItemCollection chartLegend = new LegendItemCollection();
         Shape shape = new Rectangle(10, 10);
         chartLegend.add(new LegendItem("Total", null, null, null, shape, new Color(0,162,255)));
         chartLegend.add(new LegendItem("Aprobado", null, null, null, shape, new Color(0,255,124)));
         chartLegend.add(new LegendItem("Suspenso", null, null, null, shape, new Color(255,50,0)));
-        
+        // Genera la grafica
         JFreeChart chart = new JFreeChart("Cantidad de Examnes", JFreeChart.DEFAULT_TITLE_FONT, plot, true);
         ((CategoryPlot)chart.getPlot()).setFixedLegendItems(chartLegend);
         
@@ -293,26 +325,33 @@ public class TestFrame extends javax.swing.JFrame {
         URL imagebut3 = Main.class.getClassLoader().getResource("half-moon.png");
         buttonTema.setIcon(new ImageIcon(imagebut3));
         buttonTema.putClientProperty("JButton.buttonType", "roundRect");
+        buttonTema.setToolTipText("Cambiar el tema");
         buttonTema.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        CantPreButton.setText("Numero Preguntas");
+        URL imagebutCant = Main.class.getClassLoader().getResource("computer-slider-tool.png");
+        CantPreButton.setIcon(new ImageIcon(imagebutCant));
+        CantPreButton.setToolTipText("Seleccionar la cantidad de preguntas");
         CantPreButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        CantPreButton.setPreferredSize(new java.awt.Dimension(24, 24));
 
         menuInforme.setText("Tools");
 
         menuItemGrafica.setText("Examenes");
+        menuItemGrafica.setToolTipText("Muestra una grafica con los examenes");
         URL imageResource = Main.class.getClassLoader().getResource("barra-grafica.png");
         menuItemGrafica.setIcon(new ImageIcon(imageResource));
         menuInforme.add(menuItemGrafica);
         menuInforme.add(jSeparator1);
 
         jMenuItem2.setText("Añadir");
+        jMenuItem2.setToolTipText("Añade una pregunta");
         imageResource = Main.class.getClassLoader().getResource("add.png");
         jMenuItem2.setIcon(new ImageIcon(imageResource));
         menuInforme.add(jMenuItem2);
         menuInforme.add(jSeparator2);
 
         salirMenuItem.setText("Salir");
+        salirMenuItem.setToolTipText("Sale de la aplicacion");
         imageResource = Main.class.getClassLoader().getResource("flecha.png");
         salirMenuItem.setIcon(new ImageIcon(imageResource));
         menuInforme.add(salirMenuItem);
@@ -331,12 +370,12 @@ public class TestFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(400, 400, 400)
                         .addComponent(labelNombre)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonTema))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(CantPreButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(scrollPaneImagen, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(scrollPaneImagen)
+                            .addComponent(buttonTema)
+                            .addComponent(CantPreButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -344,19 +383,20 @@ public class TestFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonTema)
-                .addGap(1, 1, 1)
+                .addGap(23, 23, 23)
                 .addComponent(labelNombre)
-                .addGap(3, 3, 3)
-                .addComponent(CantPreButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(scrollPaneImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(CantPreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonTema)
+                        .addGap(14, 14, 14))))
         );
 
         pack();
