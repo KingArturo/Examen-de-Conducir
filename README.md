@@ -63,7 +63,8 @@ Tambien contiene un menu llamado _Tools_ que contiene 3 MenuItems:
 Clase que crea un Panel en el que se irán mostrnado las preguntas(de un determinado examen) de manera aleatoria junto con sus respuestas, 
 tambien dispone de un cronometro de 5 minutos que cuando llega a 0 finaliza el examen. 
 El examen se acaba cuando el cronometro llega a 0 o se contestan todas las preguntas. 
-Al finalizar el examen saldrá un dialogo informando sobre el resultado del examen.
+Al finalizar el examen saldrá un dialogo informando sobre el resultado del examen, tambien guardara el resultado de el examen 
+en la tabla registro.
 
 ### PreguntaButton
 Clase que extiende de JButton y que contendra el texto de una respuesta a si como si esta es correcta o no. 
