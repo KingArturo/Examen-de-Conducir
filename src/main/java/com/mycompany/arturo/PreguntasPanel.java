@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 public class PreguntasPanel extends javax.swing.JPanel {
 
     private ArrayList<String[]> preguntas;
+    private ArrayList<String[]> infoRespuestas;
     private String pregunta[];
     private PreguntaButton[] pre;
     private int preguntasRespondidas;
@@ -49,6 +50,7 @@ public class PreguntasPanel extends javax.swing.JPanel {
     */
     public PreguntasPanel(ArrayList<String[]> preguntas, ConexionDB db, int cantPreguntas) {
         this.db = db;
+        infoRespuestas = new ArrayList<>();
         Cantidad_Preguntas = cantPreguntas;
         Collections.shuffle(preguntas);
         this.preguntas = preguntas;
@@ -104,8 +106,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
         String[] a = pregunta;
         labelPregunta.setText(a[1]);
         URL imageResource = Main.class.getClassLoader().getResource(a[2]);
-        //labelImagen.setIcon(new ImageIcon(".\\.\\resources\\"+a[2]));
-        labelImagen.setIcon(new ImageIcon(imageResource));
+        labelImagen.setIcon(new ImageIcon(".\\.\\resources\\"+a[2]));
+        //labelImagen.setIcon(new ImageIcon(imageResource));
         pre = new PreguntaButton[4];
         int cont = 0;
         ArrayList<String[]> respuestas = db.getRespuestas(Integer.parseInt(a[0]));
@@ -161,6 +163,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
                     if(pre.esCorrecta()) {
                         preguntaAcertada();
                     }
+                    String[] pregunt = {pregunta[1], pre.getPregunta(),String.valueOf(pre.esCorrecta())};
+                    infoRespuestas.add(pregunt);
                     if(preguntasRespondidas < (Cantidad_Preguntas)) {
                       preguntasRespondidas++;
                       pregunta = cogerPregunta();
@@ -179,9 +183,11 @@ public class PreguntasPanel extends javax.swing.JPanel {
     */
     private void advertencia() {
         if(aciertos > (Cantidad_Preguntas-4)) {
-            JOptionPane.showConfirmDialog(this, "Has probado\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+            ResultadosPanel result = new ResultadosPanel(infoRespuestas, "Aprobado");
+            JOptionPane.showConfirmDialog(null,result,"Examen",JOptionPane.PLAIN_MESSAGE,JOptionPane.PLAIN_MESSAGE);
         } else {
-            JOptionPane.showConfirmDialog(this, "Has suspendido\nacertado "+aciertos+" de "+Cantidad_Preguntas, "Bien", JOptionPane.WARNING_MESSAGE);
+            ResultadosPanel result = new ResultadosPanel(infoRespuestas, "Suspensi");
+            JOptionPane.showConfirmDialog(null,result,"Examen",JOptionPane.PLAIN_MESSAGE,JOptionPane.PLAIN_MESSAGE);
         }
         Examen_Finalizado = true;
         db.setRegistro((Cantidad_Preguntas-aciertos));
