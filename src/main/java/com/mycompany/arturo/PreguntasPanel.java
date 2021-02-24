@@ -106,8 +106,8 @@ public class PreguntasPanel extends javax.swing.JPanel {
         String[] a = pregunta;
         labelPregunta.setText(a[1]);
         URL imageResource = Main.class.getClassLoader().getResource(a[2]);
-        labelImagen.setIcon(new ImageIcon(".\\.\\resources\\"+a[2]));
-        //labelImagen.setIcon(new ImageIcon(imageResource));
+        //labelImagen.setIcon(new ImageIcon(".\\.\\resources\\"+a[2]));
+        labelImagen.setIcon(new ImageIcon(imageResource));
         pre = new PreguntaButton[4];
         int cont = 0;
         ArrayList<String[]> respuestas = db.getRespuestas(Integer.parseInt(a[0]));

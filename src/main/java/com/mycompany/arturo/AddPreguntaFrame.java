@@ -151,8 +151,8 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
                 if (seleccion == JFileChooser.APPROVE_OPTION){
                     imageLabel.setText(fc.getSelectedFile().getName());
                     File padre = new File("resources");
-                    File destino = new File(padre.getAbsolutePath(),fc.getSelectedFile().getName());
-                    //File destino = new File("src/main/resources",fc.getSelectedFile().getName());
+                    //File destino = new File(padre.getAbsolutePath(),fc.getSelectedFile().getName());
+                    File destino = new File("src/main/resources",fc.getSelectedFile().getName());
                     try {
                         Files.copy(Paths.get(fc.getSelectedFile().getAbsolutePath())
                                 , Paths.get(destino.getAbsolutePath())
