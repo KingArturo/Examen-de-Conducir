@@ -21,7 +21,7 @@ Y por último el menu cuanta con una opcion que permite regresar al la ventana d
 
 ## Pre-requisitos 📋
 
-Para poder ejecutar la aplicación correctamente se necesitara java 11 o superior
+Para poder ejecutar la aplicación correctamente se necesitara windows
 
 ## Instalación 🔧
 
@@ -39,10 +39,11 @@ La clase dispone de las siguientes clases:
 * TestFrame
 * PreguntasPanel
 * PreguntaButton
-* TipoExamen
-* SelctCantPrePanel
+* ExamenButton
+* SelectCantPrePanel
 * ConexionDB
 * AddPreguntaFrame
+* ResultadosPanel
 
 ### Clase ElegirPreguntasFrame
 
@@ -59,7 +60,7 @@ Tambien contiene un menu llamado _Tools_ que contiene 3 MenuItems:
 * La tercera cierra la venta y crea una ventana de seleccion de la base de datos.
 
 ### PreguntasPanel
-Clase que crea un Panel en el que se irán mostrnado las preguntas de manera aleatoria junto con sus respuestas, 
+Clase que crea un Panel en el que se irán mostrnado las preguntas(de un determinado examen) de manera aleatoria junto con sus respuestas, 
 tambien dispone de un cronometro de 5 minutos que cuando llega a 0 finaliza el examen. 
 El examen se acaba cuando el cronometro llega a 0 o se contestan todas las preguntas. 
 Al finalizar el examen saldrá un dialogo informando sobre el resultado del examen.
@@ -67,10 +68,10 @@ Al finalizar el examen saldrá un dialogo informando sobre el resultado del exam
 ### PreguntaButton
 Clase que extiende de JButton y que contendra el texto de una respuesta a si como si esta es correcta o no. 
 
-### TipoExamen
+### ExamenButton
 Clase que extiende de JButton y contiene el nombre de un examen y su id.
 
-### SelctCantPrePanel
+### SelectCantPrePanel
 Clase que extiende de JPanel y  que contiene un Slider que servira para seleccionar un numero del 5 al 10
 
 ### ConexionDB
@@ -81,6 +82,11 @@ Clase que extiende de JFrame y que contiene un formulario con un ComboBox que co
 un campo TextArea y 4 TextFiel en los que se introducira la nueva pregunta que se desee añadir.
 Tambien dispone de un boton que abre un explorador de archivo en el que se podrá seleccionar la imagen que 
 hace referencia a la pregunta, una vez seleccionado la imagen se copiara a la carpeta resources del proyecto.
+
+### ResultadosPanel
+Calse que exitende de JPanel y que muestra las preguntas de un examen junto con la respuesta seleccionada y 
+si es o no correcta. Para elegir que pregunta se quiere ver el Frame cuanta con un slider con el que podremos 
+seleccionar la pregunta que queramos ver.
 
 ## Base de datos
 La base de datos dispondrá de 4 tablas:

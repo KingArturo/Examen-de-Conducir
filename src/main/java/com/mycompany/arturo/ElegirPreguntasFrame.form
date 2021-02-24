@@ -44,7 +44,7 @@
               <Component id="elegirButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="startButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="151" max="32767" attributes="0"/>
+              <EmptySpace pref="112" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,6 +53,9 @@
     <Component class="javax.swing.JButton" name="elegirButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Elegir Preguntas"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="URL imageResource = Main.class.getClassLoader().getResource(&quot;mas.png&quot;);&#xa;        elegirButton.setIcon(new ImageIcon(imageResource));&#xa;&#xa;        // Texto en el centro y debajo del icono&#xa;        elegirButton.setHorizontalTextPosition( SwingConstants.LEFT );&#xa;        elegirButton.setHorizontalTextPosition( SwingConstants.RIGHT );"/>
@@ -61,6 +64,9 @@
     <Component class="javax.swing.JButton" name="startButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Empezar"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="imageResource = Main.class.getClassLoader().getResource(&quot;play.png&quot;);&#xa;        startButton.setIcon(new ImageIcon(imageResource));&#xa;&#xa;        // Texto en el centro y debajo del icono&#xa;        startButton.setHorizontalTextPosition( SwingConstants.LEFT );&#xa;        startButton.setHorizontalTextPosition( SwingConstants.RIGHT );"/>

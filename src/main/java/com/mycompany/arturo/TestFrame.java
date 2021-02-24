@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JRootPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.jfree.chart.*;
@@ -59,6 +60,7 @@ public class TestFrame extends javax.swing.JFrame {
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
         theme = true;
         cantPreguntas = 10;
+        centrarFrame();
         initComponents();
         addBotonCantPreguntasListener();
         addListenerTheme();
@@ -67,7 +69,7 @@ public class TestFrame extends javax.swing.JFrame {
         examenes = db.getExamenes();
         panelImagen.setLayout(new GridLayout(examenes.size(),1));
         for(String[] a : examenes) {
-            TipoExamen b = new TipoExamen(Integer.parseInt(a[0]),a[1]);
+            ExamenButton b = new ExamenButton(Integer.parseInt(a[0]),a[1]);
             addButtonListener(b);
             panelImagen.add(b);
         }
@@ -75,6 +77,14 @@ public class TestFrame extends javax.swing.JFrame {
         addMenuListener();
         addMenuListenerSalir();
         addAnadirMenuListener();
+    }
+    
+    private void centrarFrame() {
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = pantalla.height;
+        int width = pantalla.width;
+        setSize(width/2, height/2);	
+        setLocationRelativeTo(null);
     }
             
          
@@ -107,7 +117,7 @@ public class TestFrame extends javax.swing.JFrame {
      * Listener para los botones de los examenes que creara el Panel con 
      * las preguntas de un examen
      */
-    private void addButtonListener(TipoExamen button) {
+    private void addButtonListener(ExamenButton button) {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { 
@@ -215,7 +225,7 @@ public class TestFrame extends javax.swing.JFrame {
     * los examenes
     */
     private void mostrarDialogoCantPreguntas() {
-        SelctCantPrePanel pn = new SelctCantPrePanel();
+        SelectCantPrePanel pn = new SelectCantPrePanel();
         JOptionPane.showConfirmDialog(null,
                         pn,
                         "Elegir ",
@@ -301,13 +311,16 @@ public class TestFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
         setMinimumSize(new java.awt.Dimension(1027, 512));
+        setResizable(false);
 
         labelNombre.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        labelNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelNombre.setText("Autoescuela A&A");
         labelNombre.setToolTipText("");
         labelNombre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         labelNombre.setFocusable(false);
         labelNombre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelNombre.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panelImagenLayout = new javax.swing.GroupLayout(panelImagen);
         panelImagen.setLayout(panelImagenLayout);
@@ -367,17 +380,14 @@ public class TestFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(400, 400, 400)
-                        .addComponent(labelNombre)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(labelNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 1014, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(scrollPaneImagen)
                             .addComponent(buttonTema)
                             .addComponent(CantPreButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(scrollPanePreguntas, javax.swing.GroupLayout.DEFAULT_SIZE, 834, Short.MAX_VALUE)))
+                        .addComponent(scrollPanePreguntas)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

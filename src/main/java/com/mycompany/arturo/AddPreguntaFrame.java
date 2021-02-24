@@ -40,7 +40,6 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         this.db = db;
         this.setUndecorated(true);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
-        this.setResizable(false);
         initComponents();
         addButton.setEnabled(false);
         setExamenesComboBox();
@@ -59,6 +58,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         Image retValue = Toolkit.getDefaultToolkit().getImage(imageResource);
         return retValue;
     }
+
     /*
     * Rellena el ComboBox con los examenes disponibles
     */
@@ -77,6 +77,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
         respuesta2TextField.setText("False1");
         respuesta3TextField.setText("False2");
         respuesta4TextField.setText("False3");
+        addButton.setEnabled(false);
     }
     /*
     * Coprueba que los campos de formulario contienen informacio
@@ -99,7 +100,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = String.valueOf(examenesComboBox.getSelectedItem()).split("-")[0];
-                boolean insertado = db.setPregunta(preguntaTextArea.getText(), imageLabel.getText(), Integer.parseInt(id));
+                db.setPregunta(preguntaTextArea.getText(), imageLabel.getText(), Integer.parseInt(id));
                 db.setRespuesta(correctaTextField.getText(),"true");
                 db.setRespuesta(respuesta2TextField.getText(),"false");
                 db.setRespuesta(respuesta3TextField.getText(),"false");
@@ -198,6 +199,7 @@ public class AddPreguntaFrame extends javax.swing.JFrame {
 
         preguntaTextArea.setColumns(20);
         preguntaTextArea.setRows(5);
+        preguntaTextArea.setLineWrap(true);
         jScrollPane1.setViewportView(preguntaTextArea);
 
         examenLabel.setText("Examen");

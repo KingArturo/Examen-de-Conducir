@@ -2,6 +2,7 @@
 package com.mycompany.arturo;
 
 import com.sun.tools.javac.Main;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,11 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
     public ElegirPreguntasFrame() {
         preguntasfile = null;
         this.setUndecorated(true);
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = pantalla.height;
+        int width = pantalla.width;
+        setSize(width/2, height/2);	
+        setLocationRelativeTo(null);
         this.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
         initComponents();
         addElegirButtonListener();
@@ -107,6 +113,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         setResizable(false);
 
         elegirButton.setText("Elegir Preguntas");
+        elegirButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         URL imageResource = Main.class.getClassLoader().getResource("mas.png");
         elegirButton.setIcon(new ImageIcon(imageResource));
 
@@ -115,6 +122,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
         elegirButton.setHorizontalTextPosition( SwingConstants.RIGHT );
 
         startButton.setText("Empezar");
+        startButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         imageResource = Main.class.getClassLoader().getResource("play.png");
         startButton.setIcon(new ImageIcon(imageResource));
 
@@ -140,7 +148,7 @@ public class ElegirPreguntasFrame extends javax.swing.JFrame {
                 .addComponent(elegirButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(startButton)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         pack();

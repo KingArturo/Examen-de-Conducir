@@ -19,10 +19,9 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jProgressBar1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ProgressBar" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="labelPregunta" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelPregunta" min="-2" pref="466" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="labelTiempo" min="-2" pref="95" max="-2" attributes="0"/>
                   </Group>
@@ -44,11 +43,11 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="labelPregunta" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelPregunta" alignment="3" max="32767" attributes="0"/>
                   <Component id="labelTiempo" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jProgressBar1" min="-2" pref="11" max="-2" attributes="0"/>
+              <Component id="ProgressBar" min="-2" pref="11" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="scrollPaneRespuesta" max="32767" attributes="0"/>
@@ -96,10 +95,10 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JProgressBar" name="jProgressBar1">
+    <Component class="javax.swing.JProgressBar" name="ProgressBar">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JProgressBar(0,Cantidad_Preguntas)"/>
-        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="jProgressBar1.setValue(1);&#xa;jProgressBar1.setStringPainted(true);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="ProgressBar.setValue(1);&#xa;ProgressBar.setStringPainted(true);"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
